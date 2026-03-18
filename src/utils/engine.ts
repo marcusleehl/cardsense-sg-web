@@ -45,6 +45,9 @@ export interface RecommendationResult {
   card: Card
   projectedAnnualValueSGD: number
   incrementalVsCurrentSGD: number
+  isMilesCard: boolean
+  totalAnnualMiles: number       // miles cards: annual miles from uncovered categories
+  monthlyCashbackSGD: number     // cashback cards: monthly cashback from uncovered categories
   topCategories: string[]
   gapFilled: string[]
   minSpendFlag: boolean
@@ -278,6 +281,9 @@ function _score(
 
       const [, topMonthlyIncremental] = keysByValue[0] ?? ['others', 0]
 
+      // Breakdown: uncovered categories with spend, sorted by incremental value
+      const isMilesCard = card.rewardType === 'miles' || card.rewardType === 'points'
+
       // Top 2 uncovered categories by incremental monthly value (for the reason sentence)
       const topUncovered = keysByValue
         .filter(([k, v]) => (coveredCategories[k as EarnKey] ?? 0) === 0 && v > 0)
@@ -288,20 +294,24 @@ function _score(
 
       let plainEnglishReason: string
       if (topMonthlyIncremental > 0) {
-        const earnPart = topUncovered.length > 0
-          ? `Based on your ${topUncovered.join(' and ')} spend across your remaining ` +
-            `uncovered categories, this card earns you SGD ${fmtSGD(incrementalCategoryValue)} more per year.`
-          : `This card earns you SGD ${fmtSGD(incrementalCategoryValue)} more per year than your current setup.`
+        let earnPart: string
+        if (isMilesCard) {
+          earnPart = topUncovered.length > 0
+            ? `This card earns strong miles on your ${topUncovered.join(' and ')} spend.`
+            : `This card earns strong miles across your uncovered spending categories.`
+        } else {
+          earnPart = topUncovered.length > 0
+            ? `Based on your ${topUncovered.join(' and ')} spend across your remaining ` +
+              `uncovered categories, this card earns you SGD ${fmtSGD(incrementalCategoryValue)} more per year.`
+            : `This card earns you SGD ${fmtSGD(incrementalCategoryValue)} more per year than your current setup.`
+        }
         plainEnglishReason = coveredNote ? `${coveredNote} ${earnPart}` : earnPart
       } else {
         plainEnglishReason = coveredNote
           ? `${coveredNote} ${card.useCaseSummary}`
           : card.useCaseSummary
       }
-
-      // Breakdown: uncovered categories with spend, sorted by incremental value
-      const isMilesCard = card.rewardType === 'miles' || card.rewardType === 'points'
-      const categoryBreakdown: CategoryBreakdown[] = EARN_KEYS
+      const breakdownKeys = EARN_KEYS
         .filter((key) =>
           key !== 'others' &&
           avgMonthlySpend[key] > 0 &&
@@ -309,19 +319,32 @@ function _score(
           (card.earnRates[key] ?? 0) > 0,
         )
         .sort((a, b) => incrementalByKey[b] - incrementalByKey[a])
-        .map((key) => {
-          const monthlySpend = avgMonthlySpend[key]
-          const earnRate     = card.earnRates[key] ?? 0
-          const monthlyEarnDisplay = isMilesCard
-            ? `${Math.round(monthlySpend * earnRate).toLocaleString('en-SG')} miles`
-            : `S$${(monthlySpend * earnRate).toFixed(2)}`
-          return { label: EARN_LABELS[key], monthlySpend, monthlyEarnDisplay }
-        })
+
+      const categoryBreakdown: CategoryBreakdown[] = breakdownKeys.map((key) => {
+        const monthlySpend = avgMonthlySpend[key]
+        const earnRate     = card.earnRates[key] ?? 0
+        const monthlyEarnDisplay = isMilesCard
+          ? `${Math.round(monthlySpend * earnRate).toLocaleString('en-SG')} miles`
+          : `S$${(monthlySpend * earnRate).toFixed(2)}`
+        return { label: EARN_LABELS[key], monthlySpend, monthlyEarnDisplay }
+      })
+
+      let totalAnnualMiles = 0
+      let monthlyCashbackSGD = 0
+      for (const key of breakdownKeys) {
+        const monthlyEarn = avgMonthlySpend[key] * (card.earnRates[key] ?? 0)
+        if (isMilesCard) totalAnnualMiles += Math.round(monthlyEarn)
+        else monthlyCashbackSGD += monthlyEarn
+      }
+      if (isMilesCard) totalAnnualMiles *= 12
 
       return {
         card,
         projectedAnnualValueSGD:   Math.round(annualValue            * 100) / 100,
         incrementalVsCurrentSGD:   Math.round(incrementalCategoryValue * 100) / 100,
+        isMilesCard,
+        totalAnnualMiles,
+        monthlyCashbackSGD,
         topCategories,
         gapFilled,
         minSpendFlag,

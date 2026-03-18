@@ -39,6 +39,15 @@ function fmtSGD(n: number): string {
   return n.toLocaleString('en-SG', { minimumFractionDigits: 0, maximumFractionDigits: 0 })
 }
 
+function krisFlyerContext(miles: number): string {
+  if (miles < 7_500)  return 'Building towards SIN-KUL Economy (7,500 miles)'
+  if (miles < 15_000) return 'Enough for SIN-KUL Economy one-way per year'
+  if (miles < 35_500) return 'Enough for SIN-BKK Economy one-way per year'
+  if (miles < 62_500) return 'Enough for SIN-TYO Business one-way per year'
+  if (miles < 93_750) return 'Enough for SIN-LHR Economy one-way per year'
+  return 'Enough for SIN-LHR Business one-way per year'
+}
+
 // ── gap analysis pill ─────────────────────────────────────────────────────────
 
 type CoverageLevel = 'green' | 'amber' | 'red'
@@ -135,11 +144,23 @@ export default function Recommendations() {
   // ── compute recommendation sets ────────────────────────────────────────────
   const avgMonthly: Record<string, number> = spendProfile?.avgMonthlyByCategory ?? {}
 
-  const allResults    = useMemo(() => recommendFromProfile(avgMonthly, prefs, cards), [])
-  const milesResults  = useMemo(() => recommendFromProfile(avgMonthly, prefs, cards.filter((c) => c.rewardType === 'miles' || c.rewardType === 'points')), [])
+  // Best Value respects the user's reward priority preference
+  const allResults = useMemo(() => {
+    const bestCards =
+      prefs.rewardPriority === 'miles'    ? cards.filter((c) => c.rewardType === 'miles' || c.rewardType === 'points')
+      : prefs.rewardPriority === 'cashback' ? cards.filter((c) => c.rewardType === 'cashback')
+      : cards
+    return recommendFromProfile(avgMonthly, prefs, bestCards)
+  }, [])
+  const milesResults    = useMemo(() => recommendFromProfile(avgMonthly, prefs, cards.filter((c) => c.rewardType === 'miles' || c.rewardType === 'points')), [])
   const cashbackResults = useMemo(() => recommendFromProfile(avgMonthly, prefs, cards.filter((c) => c.rewardType === 'cashback')), [])
 
-  const [sortMode, setSortMode]       = useState<SortMode>('best')
+  const defaultTab: SortMode =
+    prefs.rewardPriority === 'miles'    ? 'miles'
+    : prefs.rewardPriority === 'cashback' ? 'cashback'
+    : 'best'
+
+  const [sortMode, setSortMode] = useState<SortMode>(defaultTab)
   const [compareIds, setCompareIds]   = useState<Set<string>>(new Set())
 
   const results: RecommendationResult[] =
@@ -206,6 +227,22 @@ export default function Recommendations() {
             </button>
           ))}
         </div>
+
+        {/* ── Off-priority comparison note ──────────────────────────────────── */}
+        {((prefs.rewardPriority === 'miles' && sortMode === 'cashback') ||
+          (prefs.rewardPriority === 'cashback' && sortMode === 'miles')) && (
+          <div
+            className="flex gap-2.5 p-3 rounded-xl mb-4 text-xs leading-relaxed"
+            style={{ backgroundColor: '#EFF6FF', color: '#1E40AF', border: '1px solid #BFDBFE' }}
+          >
+            <span className="flex-shrink-0">ℹ️</span>
+            <span>
+              {prefs.rewardPriority === 'miles'
+                ? 'You selected Miles as your priority. Shown for comparison.'
+                : 'You selected Cashback as your priority. Shown for comparison.'}
+            </span>
+          </div>
+        )}
 
         {/* ── Gap analysis banner ───────────────────────────────────────────── */}
         <div className="mb-6">
@@ -386,19 +423,27 @@ function HeroCard({
           </label>
         </div>
 
-        {/* Annual value */}
+        {/* Value display */}
         <div className="mb-4">
-          <p className="text-xs text-gray-400 uppercase tracking-wide font-medium mb-0.5">
-            Projected annual value
-          </p>
-          <p className="text-4xl font-bold" style={{ color: '#16A34A' }}>
-            S${fmtSGD(result.projectedAnnualValueSGD)}
-            <span className="text-base font-normal text-gray-400 ml-1">/ year</span>
-          </p>
-          {result.incrementalVsCurrentSGD > 0 && (
-            <p className="text-sm text-gray-500 mt-0.5">
-              +S${fmtSGD(result.incrementalVsCurrentSGD)} above your current setup
-            </p>
+          {result.isMilesCard ? (
+            <>
+              <p className="text-4xl font-bold" style={{ color: '#1D4ED8' }}>
+                {result.totalAnnualMiles.toLocaleString('en-SG')} miles
+                <span className="text-base font-normal text-gray-400 ml-1">/ year</span>
+              </p>
+              <p className="text-sm text-gray-400 mt-0.5">from your uncovered spending categories</p>
+              <p className="text-sm text-gray-500 mt-1">{krisFlyerContext(result.totalAnnualMiles)}</p>
+            </>
+          ) : (
+            <>
+              <p className="text-4xl font-bold" style={{ color: '#16A34A' }}>
+                SGD {fmtSGD(result.monthlyCashbackSGD)}
+                <span className="text-base font-normal text-gray-400 ml-1">/ month</span>
+              </p>
+              <p className="text-sm text-gray-500 mt-0.5">
+                SGD {fmtSGD(result.monthlyCashbackSGD * 12)} / year
+              </p>
+            </>
           )}
         </div>
 
@@ -437,16 +482,6 @@ function HeroCard({
                   </tr>
                 ))}
               </tbody>
-              <tfoot>
-                <tr>
-                  <td colSpan={2} className="pt-3 text-xs font-semibold text-gray-500">
-                    Annual value
-                  </td>
-                  <td className="pt-3 text-right text-sm font-bold" style={{ color: '#16A34A' }}>
-                    S${fmtSGD(result.incrementalVsCurrentSGD)}
-                  </td>
-                </tr>
-              </tfoot>
             </table>
           </div>
         )}
@@ -553,14 +588,25 @@ function AltCard({
         </label>
       </div>
 
-      {/* Annual value */}
+      {/* Value display */}
       <div>
-        <p className="text-xs text-gray-400 uppercase tracking-wide font-medium mb-0.5">
-          Projected annual value
-        </p>
-        <p className="text-2xl font-bold" style={{ color: '#16A34A' }}>
-          S${fmtSGD(result.projectedAnnualValueSGD)}
-        </p>
+        {result.isMilesCard ? (
+          <>
+            <p className="text-2xl font-bold" style={{ color: '#1D4ED8' }}>
+              {result.totalAnnualMiles.toLocaleString('en-SG')} miles / year
+            </p>
+            <p className="text-xs text-gray-400 mt-0.5">{krisFlyerContext(result.totalAnnualMiles)}</p>
+          </>
+        ) : (
+          <>
+            <p className="text-2xl font-bold" style={{ color: '#16A34A' }}>
+              SGD {fmtSGD(result.monthlyCashbackSGD)} / month
+            </p>
+            <p className="text-xs text-gray-500 mt-0.5">
+              SGD {fmtSGD(result.monthlyCashbackSGD * 12)} / year
+            </p>
+          </>
+        )}
       </div>
 
       {/* Top category */}

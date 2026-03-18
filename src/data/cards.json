@@ -34,7 +34,7 @@
       "others": 0.0333
     },
     "minIncomeSGD": 30000,
-    "annualFee": 196.20,
+    "annualFee": 196.2,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 600,
     "perks": [
@@ -47,7 +47,8 @@
     "welcomeBonus": "Up to S$260 cash credit for new deposit customers",
     "welcomeBonusValue": 260,
     "useCaseSummary": "Best for spenders who can commit S$600–S$2,000/month and want a combined cashback and savings-account interest boost. Strongest for those who frequently use Grab, McDonald's, Shopee, or Shell.",
-    "applyUrl": "https://forms.uob.com/sg/apply/account?productId=001843"
+    "applyUrl": "https://www.uob.com.sg/personal/cards/credit-cards.page",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "uob-absolute-cashback",
@@ -84,7 +85,7 @@
       "others": 0.017
     },
     "minIncomeSGD": 30000,
-    "annualFee": 196.20,
+    "annualFee": 196.2,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -95,7 +96,8 @@
     "welcomeBonus": "None",
     "welcomeBonusValue": 0,
     "useCaseSummary": "Ideal for those who want a simple, no-fuss high flat-rate cashback card with no minimum spend and no cap. Best paired with another card for excluded categories.",
-    "applyUrl": "https://forms.uob.com/sg/apply/?productId=001332"
+    "applyUrl": "https://www.uob.com.sg/personal/cards/credit-cards.page",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "uob-evol",
@@ -108,31 +110,31 @@
     "earnRates": {
       "dining": 0.003,
       "travel": 0.003,
-      "transport": 0.10,
-      "onlineShopping": 0.10,
+      "transport": 0.1,
+      "onlineShopping": 0.1,
       "retailShopping": 0.003,
       "groceries": 0.003,
       "healthBeauty": 0.003,
       "entertainment": 0.003,
-      "subscriptions": 0.10,
+      "subscriptions": 0.1,
       "education": 0.003,
       "others": 0.003
     },
     "cashbackEquivalent": {
       "dining": 0.003,
       "travel": 0.003,
-      "transport": 0.10,
-      "onlineShopping": 0.10,
+      "transport": 0.1,
+      "onlineShopping": 0.1,
       "retailShopping": 0.003,
       "groceries": 0.003,
       "healthBeauty": 0.003,
       "entertainment": 0.003,
-      "subscriptions": 0.10,
+      "subscriptions": 0.1,
       "education": 0.003,
       "others": 0.003
     },
     "minIncomeSGD": 30000,
-    "annualFee": 196.20,
+    "annualFee": 196.2,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 800,
     "perks": [
@@ -145,7 +147,8 @@
     "welcomeBonus": "None",
     "welcomeBonusValue": 0,
     "useCaseSummary": "Great for digital-first millennials who spend heavily online and on public transport. The 0% FX fee worldwide makes it excellent for overseas travel too.",
-    "applyUrl": "https://forms.uob.com/sg/apply/?productId=001454"
+    "applyUrl": "https://www.uob.com.sg/personal/cards/credit-cards.page",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "uob-prvi-miles-visa",
@@ -182,7 +185,7 @@
       "others": 0.028
     },
     "minIncomeSGD": 30000,
-    "annualFee": 261.60,
+    "annualFee": 261.6,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -194,7 +197,8 @@
     "welcomeBonus": "None",
     "welcomeBonusValue": 0,
     "useCaseSummary": "A solid all-round miles card with a strong overseas earn rate and travel perks. Good for frequent regional travellers who want lounge access without a premium annual fee.",
-    "applyUrl": "https://forms.uob.com/sg/apply/?productId=001853"
+    "applyUrl": "https://www.uob.com.sg/personal/cards/credit-cards.page",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "uob-prvi-miles-mastercard",
@@ -231,7 +235,7 @@
       "others": 0.028
     },
     "minIncomeSGD": 30000,
-    "annualFee": 261.60,
+    "annualFee": 261.6,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -242,7 +246,8 @@
     "welcomeBonus": "None",
     "welcomeBonusValue": 0,
     "useCaseSummary": "Same earn rates as the Visa variant but on the Mastercard network — useful for merchants that don't accept Amex or Visa. Ideal for miles collectors wanting broad acceptance.",
-    "applyUrl": "https://forms.uob.com/sg/apply/?productId=001515"
+    "applyUrl": "https://www.uob.com.sg/personal/cards/credit-cards.page",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "uob-prvi-miles-amex",
@@ -279,7 +284,7 @@
       "others": 0.028
     },
     "minIncomeSGD": 30000,
-    "annualFee": 261.60,
+    "annualFee": 261.6,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -292,7 +297,8 @@
     "welcomeBonus": "20,000 loyalty miles with S$50,000+ annual spend",
     "welcomeBonusValue": 400,
     "useCaseSummary": "Best for high spenders who want Amex-exclusive perks like airport transfers and hotel benefits on top of the PRVI Miles earn rates.",
-    "applyUrl": "https://forms.uob.com/sg/apply/?productId=001333"
+    "applyUrl": "https://www.uob.com.sg/personal/cards/credit-cards.page",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "uob-ladys",
@@ -301,19 +307,27 @@
     "network": "Mastercard",
     "rewardType": "miles",
     "categorySelectable": true,
-    "selectableOptions": ["fashion", "dining", "beauty & wellness", "travel", "family", "entertainment", "transport"],
+    "selectableOptions": [
+      "fashion",
+      "dining",
+      "beauty & wellness",
+      "travel",
+      "family",
+      "entertainment",
+      "transport"
+    ],
     "earnRates": {
-      "dining": 4.0,
-      "travel": 4.0,
-      "transport": 4.0,
-      "onlineShopping": 4.0,
-      "retailShopping": 4.0,
-      "groceries": 4.0,
-      "healthBeauty": 4.0,
-      "entertainment": 4.0,
-      "subscriptions": 4.0,
-      "education": 4.0,
-      "others": 4.0
+      "dining": 4,
+      "travel": 4,
+      "transport": 4,
+      "onlineShopping": 4,
+      "retailShopping": 4,
+      "groceries": 4,
+      "healthBeauty": 4,
+      "entertainment": 4,
+      "subscriptions": 4,
+      "education": 4,
+      "others": 4
     },
     "cashbackEquivalent": {
       "dining": 0.08,
@@ -329,7 +343,7 @@
       "others": 0.08
     },
     "minIncomeSGD": 30000,
-    "annualFee": 196.20,
+    "annualFee": 196.2,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -342,7 +356,8 @@
     "welcomeBonus": "None",
     "welcomeBonusValue": 0,
     "useCaseSummary": "The top pick for women who want to concentrate miles earning on a single chosen category each quarter — especially valuable for fashion or beauty spenders.",
-    "applyUrl": "https://forms.uob.com/sg/apply/cards/ladys"
+    "applyUrl": "https://www.uob.com.sg/personal/cards/credit-cards.page",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "uob-lazada",
@@ -356,7 +371,7 @@
       "dining": 0.05,
       "travel": 0.003,
       "transport": 0.05,
-      "onlineShopping": 0.20,
+      "onlineShopping": 0.2,
       "retailShopping": 0.003,
       "groceries": 0.06,
       "healthBeauty": 0.003,
@@ -369,7 +384,7 @@
       "dining": 0.05,
       "travel": 0.003,
       "transport": 0.05,
-      "onlineShopping": 0.20,
+      "onlineShopping": 0.2,
       "retailShopping": 0.003,
       "groceries": 0.06,
       "healthBeauty": 0.003,
@@ -379,7 +394,7 @@
       "others": 0.003
     },
     "minIncomeSGD": 30000,
-    "annualFee": 196.20,
+    "annualFee": 196.2,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 500,
     "perks": [
@@ -391,7 +406,8 @@
     "welcomeBonus": "S$200 in Lazada vouchers for new UOB cardmembers (with qualifying spend)",
     "welcomeBonusValue": 200,
     "useCaseSummary": "Perfect for Lazada/RedMart loyalists — the 20% rebate on Lazada is among the highest platform-specific rebates in Singapore.",
-    "applyUrl": "https://forms.uob.com/sg/apply/?productId=001510"
+    "applyUrl": "https://www.uob.com.sg/personal/cards/credit-cards.page",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "ocbc-365",
@@ -428,7 +444,7 @@
       "others": 0.0025
     },
     "minIncomeSGD": 30000,
-    "annualFee": 196.20,
+    "annualFee": 196.2,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 800,
     "perks": [
@@ -441,7 +457,8 @@
     "welcomeBonus": "Delsey luggage and Disney packing cubes with S$300 spend in 30 days",
     "welcomeBonusValue": 150,
     "useCaseSummary": "A versatile everyday cashback card covering dining, groceries, transport and utilities. Best for households spending S$800+ per month across multiple categories.",
-    "applyUrl": "https://internet.ocbc.com/ipa/IPACommonV3/Agent"
+    "applyUrl": "https://www.ocbc.com/personal-banking/cards/credit-cards",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "ocbc-infinity",
@@ -478,7 +495,7 @@
       "others": 0.016
     },
     "minIncomeSGD": 30000,
-    "annualFee": 196.20,
+    "annualFee": 196.2,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -490,7 +507,8 @@
     "welcomeBonus": "De'Longhi Icona Vintage Breakfast set (S$298) or Samsonite luggage or S$200 cashback",
     "welcomeBonusValue": 200,
     "useCaseSummary": "The go-to for those who want a clean unlimited flat-rate cashback card with no hoops to jump through. Strong companion card for irregular spenders.",
-    "applyUrl": "https://internet.ocbc.com/ipa/IPACommonV3/Agent"
+    "applyUrl": "https://www.ocbc.com/personal-banking/cards/credit-cards",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "ocbc-rewards",
@@ -501,17 +519,17 @@
     "categorySelectable": false,
     "selectableOptions": [],
     "earnRates": {
-      "dining": 1.0,
-      "travel": 1.0,
-      "transport": 1.0,
-      "onlineShopping": 4.0,
-      "retailShopping": 4.0,
-      "groceries": 1.0,
-      "healthBeauty": 4.0,
-      "entertainment": 1.0,
-      "subscriptions": 1.0,
-      "education": 1.0,
-      "others": 1.0
+      "dining": 1,
+      "travel": 1,
+      "transport": 1,
+      "onlineShopping": 4,
+      "retailShopping": 4,
+      "groceries": 1,
+      "healthBeauty": 4,
+      "entertainment": 1,
+      "subscriptions": 1,
+      "education": 1,
+      "others": 1
     },
     "cashbackEquivalent": {
       "dining": 0.02,
@@ -527,7 +545,7 @@
       "others": 0.02
     },
     "minIncomeSGD": 30000,
-    "annualFee": 196.20,
+    "annualFee": 196.2,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -539,7 +557,8 @@
     "welcomeBonus": "Delsey luggage with S$300 spend in 30 days",
     "welcomeBonusValue": 120,
     "useCaseSummary": "Outstanding for shopping addicts — earns 4 mpd on clothing, shoes, luggage, pharmacies and department stores, making it one of the best shopping-category miles cards.",
-    "applyUrl": "https://internet.ocbc.com/ipa/IPACommonV3/Agent"
+    "applyUrl": "https://www.ocbc.com/personal-banking/cards/credit-cards",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "ocbc-90n-mastercard",
@@ -576,7 +595,7 @@
       "others": 0.026
     },
     "minIncomeSGD": 30000,
-    "annualFee": 196.20,
+    "annualFee": 196.2,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -589,7 +608,8 @@
     "welcomeBonus": "Up to 55,000 miles for new applicants",
     "welcomeBonusValue": 1100,
     "useCaseSummary": "A flexible miles card with never-expiring miles, wide transfer partner network, and impressive lounge access at a mainstream annual fee. Great for frequent travellers.",
-    "applyUrl": "https://internet.ocbc.com/ipa/IPACommonV3/Agent"
+    "applyUrl": "https://www.ocbc.com/personal-banking/cards/credit-cards",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "ocbc-90n-visa",
@@ -626,7 +646,7 @@
       "others": 0.026
     },
     "minIncomeSGD": 30000,
-    "annualFee": 196.20,
+    "annualFee": 196.2,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -639,7 +659,8 @@
     "welcomeBonus": "Up to 55,000 miles for new applicants",
     "welcomeBonusValue": 1100,
     "useCaseSummary": "The Visa variant of the 90°N with DragonPass lounge access and 6 mpd on Agoda. Excellent for travellers who prefer Visa acceptance worldwide.",
-    "applyUrl": "https://internet.ocbc.com/ipa/IPACommonV3/Agent"
+    "applyUrl": "https://www.ocbc.com/personal-banking/cards/credit-cards",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "ocbc-voyage",
@@ -676,7 +697,7 @@
       "others": 0.026
     },
     "minIncomeSGD": 120000,
-    "annualFee": 498.00,
+    "annualFee": 498,
     "firstYearFeeWaived": false,
     "minMonthlySpend": 0,
     "perks": [
@@ -690,7 +711,8 @@
     "welcomeBonus": "None",
     "welcomeBonusValue": 0,
     "useCaseSummary": "A premium miles card for affluent travellers who value unlimited lounge access, airport transfers, and concierge services. The 15,000 annual miles partially offsets the fee.",
-    "applyUrl": "https://internet.ocbc.com/ipa/IPACommonV3/Agent"
+    "applyUrl": "https://www.ocbc.com/personal-banking/cards/credit-cards",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "sc-simply-cash",
@@ -727,7 +749,7 @@
       "others": 0.015
     },
     "minIncomeSGD": 30000,
-    "annualFee": 196.20,
+    "annualFee": 196.2,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -739,7 +761,8 @@
     "welcomeBonus": "S$710 worth of gifts: Samsonite MODUS Spinner 25\" + S$100 cashback with S$800 spend in 60 days",
     "welcomeBonusValue": 710,
     "useCaseSummary": "A clean, unlimited 1.5% cashback card with no minimum spend. Best as a catch-all backup card for spend not covered by category-focused cards.",
-    "applyUrl": "https://ob.sc.com/sg/ngl-apply?product=164&campaign=2519"
+    "applyUrl": "https://www.sc.com/sg/credit-cards/",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "sc-smart",
@@ -750,28 +773,28 @@
     "categorySelectable": false,
     "selectableOptions": [],
     "earnRates": {
-      "dining": 0.10,
+      "dining": 0.1,
       "travel": 0.005,
-      "transport": 0.10,
+      "transport": 0.1,
       "onlineShopping": 0.005,
       "retailShopping": 0.005,
       "groceries": 0.005,
       "healthBeauty": 0.005,
       "entertainment": 0.005,
-      "subscriptions": 0.10,
+      "subscriptions": 0.1,
       "education": 0.005,
       "others": 0.005
     },
     "cashbackEquivalent": {
-      "dining": 0.10,
+      "dining": 0.1,
       "travel": 0.005,
-      "transport": 0.10,
+      "transport": 0.1,
       "onlineShopping": 0.005,
       "retailShopping": 0.005,
       "groceries": 0.005,
       "healthBeauty": 0.005,
       "entertainment": 0.005,
-      "subscriptions": 0.10,
+      "subscriptions": 0.1,
       "education": 0.005,
       "others": 0.005
     },
@@ -789,7 +812,8 @@
     "welcomeBonus": "S$610 Samsonite luggage + S$100 cashback with S$800 spend in 60 days",
     "welcomeBonusValue": 710,
     "useCaseSummary": "Tailored for daily commuters and digital entertainment subscribers who want high cashback on Netflix, Spotify, fast food and public transport at a low annual fee.",
-    "applyUrl": "https://ob.sc.com/sg/ngl-apply?product=302&campaign=5616"
+    "applyUrl": "https://www.sc.com/sg/credit-cards/",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "sc-journey",
@@ -800,12 +824,12 @@
     "categorySelectable": false,
     "selectableOptions": [],
     "earnRates": {
-      "dining": 3.0,
+      "dining": 3,
       "travel": 1.2,
-      "transport": 3.0,
+      "transport": 3,
       "onlineShopping": 1.2,
       "retailShopping": 1.2,
-      "groceries": 3.0,
+      "groceries": 3,
       "healthBeauty": 1.2,
       "entertainment": 1.2,
       "subscriptions": 1.2,
@@ -826,7 +850,7 @@
       "others": 0.024
     },
     "minIncomeSGD": 30000,
-    "annualFee": 196.20,
+    "annualFee": 196.2,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -840,7 +864,8 @@
     "welcomeBonus": "30,000 miles (with annual fee) or 20,000 miles (fee waived) with S$800 spend in 60 days",
     "welcomeBonusValue": 600,
     "useCaseSummary": "Excellent for ride-hailing, food delivery and grocery miles — earns 3 mpd in these everyday categories with no minimum spend requirement.",
-    "applyUrl": "https://ob.sc.com/sg/ngl-apply?product=888"
+    "applyUrl": "https://www.sc.com/sg/credit-cards/",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "sc-visa-infinite",
@@ -877,7 +902,7 @@
       "others": 0.028
     },
     "minIncomeSGD": 150000,
-    "annualFee": 599.50,
+    "annualFee": 599.5,
     "firstYearFeeWaived": false,
     "minMonthlySpend": 2000,
     "perks": [
@@ -890,7 +915,8 @@
     "welcomeBonus": "Up to 50,000 miles with min S$2,000 spend in 60 days",
     "welcomeBonusValue": 1000,
     "useCaseSummary": "A premium card for high-income travellers who spend heavily overseas and want substantial travel insurance, lounge access, and a dedicated concierge.",
-    "applyUrl": "https://ob.sc.com/sg/ngl-apply?product=885&campaign=5886"
+    "applyUrl": "https://www.sc.com/sg/credit-cards/",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "sc-beyond",
@@ -901,17 +927,17 @@
     "categorySelectable": false,
     "selectableOptions": [],
     "earnRates": {
-      "dining": 2.0,
-      "travel": 2.0,
-      "transport": 2.0,
-      "onlineShopping": 2.0,
-      "retailShopping": 2.0,
-      "groceries": 2.0,
-      "healthBeauty": 2.0,
-      "entertainment": 2.0,
-      "subscriptions": 2.0,
-      "education": 2.0,
-      "others": 2.0
+      "dining": 2,
+      "travel": 2,
+      "transport": 2,
+      "onlineShopping": 2,
+      "retailShopping": 2,
+      "groceries": 2,
+      "healthBeauty": 2,
+      "entertainment": 2,
+      "subscriptions": 2,
+      "education": 2,
+      "others": 2
     },
     "cashbackEquivalent": {
       "dining": 0.04,
@@ -927,7 +953,7 @@
       "others": 0.04
     },
     "minIncomeSGD": 200000,
-    "annualFee": 1635.00,
+    "annualFee": 1635,
     "firstYearFeeWaived": false,
     "minMonthlySpend": 0,
     "perks": [
@@ -941,7 +967,8 @@
     "welcomeBonus": "Up to 200,000+ miles through combined spending and wealth activities",
     "welcomeBonusValue": 4000,
     "useCaseSummary": "An ultra-premium card for Priority Banking and Priority Private clients who want the highest miles earn rate plus world-class lifestyle and travel perks.",
-    "applyUrl": "https://ob.sc.com/sg/ngl-apply?product=900&campaign=9201"
+    "applyUrl": "https://www.sc.com/sg/credit-cards/",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "sc-rewards-plus",
@@ -952,11 +979,11 @@
     "categorySelectable": false,
     "selectableOptions": [],
     "earnRates": {
-      "dining": 2.0,
-      "travel": 4.0,
+      "dining": 2,
+      "travel": 4,
       "transport": 0.4,
-      "onlineShopping": 4.0,
-      "retailShopping": 4.0,
+      "onlineShopping": 4,
+      "retailShopping": 4,
       "groceries": 0.4,
       "healthBeauty": 0.4,
       "entertainment": 0.4,
@@ -978,7 +1005,7 @@
       "others": 0.008
     },
     "minIncomeSGD": 30000,
-    "annualFee": 196.20,
+    "annualFee": 196.2,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -990,7 +1017,8 @@
     "welcomeBonus": "Up to S$220 cashback and 6 months Disney+ with S$200 spend",
     "welcomeBonusValue": 220,
     "useCaseSummary": "Best for travellers who shop and dine heavily overseas, earning 4 mpd on all overseas retail and travel transactions with a low annual fee.",
-    "applyUrl": "https://ob.sc.com/sg/ngl-apply?product=308&campaign=5617"
+    "applyUrl": "https://www.sc.com/sg/credit-cards/",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "hsbc-revolution",
@@ -1001,16 +1029,16 @@
     "categorySelectable": false,
     "selectableOptions": [],
     "earnRates": {
-      "dining": 4.0,
-      "travel": 4.0,
-      "transport": 4.0,
-      "onlineShopping": 4.0,
-      "retailShopping": 4.0,
-      "groceries": 4.0,
-      "healthBeauty": 4.0,
-      "entertainment": 4.0,
-      "subscriptions": 4.0,
-      "education": 1.0,
+      "dining": 4,
+      "travel": 4,
+      "transport": 4,
+      "onlineShopping": 4,
+      "retailShopping": 4,
+      "groceries": 4,
+      "healthBeauty": 4,
+      "entertainment": 4,
+      "subscriptions": 4,
+      "education": 1,
       "others": 0.4
     },
     "cashbackEquivalent": {
@@ -1040,7 +1068,8 @@
     "welcomeBonus": "Samsonite luggage (S$680 value) or S$200 cashback at S$500 spend; additional S$100 cashback at next S$500 spend",
     "welcomeBonusValue": 300,
     "useCaseSummary": "Permanent 4 mpd on contactless and online spend from 1 April 2026. Being upgraded to Visa Signature with travel insurance reinstated. No annual fee.",
-    "applyUrl": "https://www.newcreditcard.hsbc.com.sg/hsbcaofe/#!/app/journey/select-cards"
+    "applyUrl": "https://www.hsbc.com.sg/credit-cards/",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "hsbc-travelone",
@@ -1077,7 +1106,7 @@
       "others": 0.024
     },
     "minIncomeSGD": 30000,
-    "annualFee": 196.20,
+    "annualFee": 196.2,
     "firstYearFeeWaived": false,
     "minMonthlySpend": 0,
     "perks": [
@@ -1090,7 +1119,8 @@
     "welcomeBonus": "Up to 36,000 miles with S$1,000 spend in first 2 months",
     "welcomeBonusValue": 720,
     "useCaseSummary": "Best for frequent overseas travellers who want instant mile transfers and lounge access without being locked into a single airline programme.",
-    "applyUrl": "https://www.newcreditcard.hsbc.com.sg/hsbcaofe/#!/app/journey/select-cards"
+    "applyUrl": "https://www.hsbc.com.sg/credit-cards/",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "hsbc-liveplus",
@@ -1127,7 +1157,7 @@
       "others": 0.003
     },
     "minIncomeSGD": 30000,
-    "annualFee": 196.20,
+    "annualFee": 196.2,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 600,
     "perks": [
@@ -1140,7 +1170,8 @@
     "welcomeBonus": "Up to S$300 cashback or Samsonite luggage (S$680 value)",
     "welcomeBonusValue": 300,
     "useCaseSummary": "A strong lifestyle card for those who regularly spend on dining, retail shopping and entertainment — the 5% rate with S$600 min spend is easily achievable for most cardholders.",
-    "applyUrl": "https://www.newcreditcard.hsbc.com.sg/hsbcaofe/#!/app/journey/select-cards"
+    "applyUrl": "https://www.hsbc.com.sg/credit-cards/",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "hsbc-advance",
@@ -1177,7 +1208,7 @@
       "others": 0.015
     },
     "minIncomeSGD": 30000,
-    "annualFee": 196.20,
+    "annualFee": 196.2,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -1190,7 +1221,8 @@
     "welcomeBonus": "Up to S$300 cashback or Samsonite luggage (S$680 value)",
     "welcomeBonusValue": 300,
     "useCaseSummary": "A solid flat-rate cashback card that rewards high spenders with 2.5% above S$2,000/month. Good for HSBC banking customers who want simplicity.",
-    "applyUrl": "https://www.newcreditcard.hsbc.com.sg/hsbcaofe/#!/app/journey/select-cards"
+    "applyUrl": "https://www.hsbc.com.sg/credit-cards/",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "hsbc-premier-mastercard",
@@ -1227,7 +1259,7 @@
       "others": 0.028
     },
     "minIncomeSGD": 30000,
-    "annualFee": 708.50,
+    "annualFee": 708.5,
     "firstYearFeeWaived": false,
     "minMonthlySpend": 0,
     "perks": [
@@ -1241,7 +1273,8 @@
     "welcomeBonus": "Up to 88,000 KrisFlyer miles (Premier qualified customers)",
     "welcomeBonusValue": 1760,
     "useCaseSummary": "The flagship card for HSBC Premier members — unlimited lounge access, generous miles earn rates, and premium travel benefits befitting affluent frequent travellers.",
-    "applyUrl": "https://www.newcreditcard.hsbc.com.sg/hsbcaofe/#!/app/journey/select-cards"
+    "applyUrl": "https://www.hsbc.com.sg/credit-cards/",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "hsbc-visa-infinite",
@@ -1252,17 +1285,17 @@
     "categorySelectable": false,
     "selectableOptions": [],
     "earnRates": {
-      "dining": 1.0,
-      "travel": 1.0,
-      "transport": 1.0,
-      "onlineShopping": 1.0,
-      "retailShopping": 1.0,
-      "groceries": 1.0,
-      "healthBeauty": 1.0,
-      "entertainment": 1.0,
-      "subscriptions": 1.0,
-      "education": 1.0,
-      "others": 1.0
+      "dining": 1,
+      "travel": 1,
+      "transport": 1,
+      "onlineShopping": 1,
+      "retailShopping": 1,
+      "groceries": 1,
+      "healthBeauty": 1,
+      "entertainment": 1,
+      "subscriptions": 1,
+      "education": 1,
+      "others": 1
     },
     "cashbackEquivalent": {
       "dining": 0.02,
@@ -1292,7 +1325,8 @@
     "welcomeBonus": "None",
     "welcomeBonusValue": 0,
     "useCaseSummary": "A legacy premium card with exceptional lounge and travel protection benefits, though the earn rate is modest. Best for HSBC high-net-worth customers seeking lifestyle privileges.",
-    "applyUrl": "https://www.hsbc.com.sg/credit-cards/products/visa-infinite/"
+    "applyUrl": "https://www.hsbc.com.sg/credit-cards/",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "cimb-visa-signature",
@@ -1306,10 +1340,10 @@
       "dining": 0.003,
       "travel": 0.003,
       "transport": 0.003,
-      "onlineShopping": 0.10,
+      "onlineShopping": 0.1,
       "retailShopping": 0.003,
-      "groceries": 0.10,
-      "healthBeauty": 0.10,
+      "groceries": 0.1,
+      "healthBeauty": 0.1,
       "entertainment": 0.003,
       "subscriptions": 0.003,
       "education": 0.003,
@@ -1319,10 +1353,10 @@
       "dining": 0.003,
       "travel": 0.003,
       "transport": 0.003,
-      "onlineShopping": 0.10,
+      "onlineShopping": 0.1,
       "retailShopping": 0.003,
-      "groceries": 0.10,
-      "healthBeauty": 0.10,
+      "groceries": 0.1,
+      "healthBeauty": 0.1,
       "entertainment": 0.003,
       "subscriptions": 0.003,
       "education": 0.003,
@@ -1341,7 +1375,8 @@
     "welcomeBonus": "S$188 welcome gift",
     "welcomeBonusValue": 188,
     "useCaseSummary": "One of the best no-annual-fee cashback cards — earns 10% on online shopping, groceries, and beauty with no recurring fee commitment.",
-    "applyUrl": "https://apply.cimb.com.sg/onboarding/init?productId=650&Channel=PERSONAL&ss=5002&ac=9002"
+    "applyUrl": "https://www.cimb.com.sg/en/personal/banking-with-us/cards/credit-cards.html",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "cimb-world-mastercard",
@@ -1391,7 +1426,8 @@
     "welcomeBonus": "S$188 welcome gift",
     "welcomeBonusValue": 188,
     "useCaseSummary": "A premium no-fee card offering lounge access and solid cashback on dining and entertainment. Best for social spenders who hit S$1,000 monthly easily.",
-    "applyUrl": "https://apply.cimb.com.sg/onboarding/init?productId=800&Channel=PERSONAL&ss=5002&ac=9003"
+    "applyUrl": "https://www.cimb.com.sg/en/personal/banking-with-us/cards/credit-cards.html",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "cimb-visa-infinite",
@@ -1441,7 +1477,8 @@
     "welcomeBonus": "S$188 cash credit",
     "welcomeBonusValue": 188,
     "useCaseSummary": "Outstanding value for high-income earners — a no-annual-fee Visa Infinite card with unlimited 2% cashback and full concierge and lounge privileges.",
-    "applyUrl": "https://apply.cimb.com.sg/onboarding/init?productId=850&Channel=PERSONAL&ss=5001&ac=9004"
+    "applyUrl": "https://www.cimb.com.sg/en/personal/banking-with-us/cards/credit-cards.html",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "dbs-altitude-visa",
@@ -1453,7 +1490,7 @@
     "selectableOptions": [],
     "earnRates": {
       "dining": 1.2,
-      "travel": 3.0,
+      "travel": 3,
       "transport": 1.2,
       "onlineShopping": 1.2,
       "retailShopping": 1.2,
@@ -1478,7 +1515,7 @@
       "others": 0.024
     },
     "minIncomeSGD": 30000,
-    "annualFee": 194.40,
+    "annualFee": 194.4,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -1491,7 +1528,8 @@
     "welcomeBonus": "Miles upon first spend — check DBS website for current offer",
     "welcomeBonusValue": 0,
     "useCaseSummary": "A well-rounded miles card with strong online travel earn rates and never-expiring points. Ideal for travellers who book flights and hotels online frequently.",
-    "applyUrl": "https://www.dbs.com.sg/personal/cards/credit-cards/dbs-altitude-cards.page"
+    "applyUrl": "https://www.dbs.com.sg/personal/cards/credit-cards.page",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "dbs-altitude-amex",
@@ -1503,7 +1541,7 @@
     "selectableOptions": [],
     "earnRates": {
       "dining": 1.2,
-      "travel": 3.0,
+      "travel": 3,
       "transport": 1.2,
       "onlineShopping": 1.2,
       "retailShopping": 1.2,
@@ -1528,7 +1566,7 @@
       "others": 0.024
     },
     "minIncomeSGD": 30000,
-    "annualFee": 194.40,
+    "annualFee": 194.4,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -1541,7 +1579,8 @@
     "welcomeBonus": "Miles upon first spend — check DBS website for current offer",
     "welcomeBonusValue": 0,
     "useCaseSummary": "The Amex variant of DBS Altitude with additional Amex dining and travel programme access. Best for those who want Amex exclusives alongside DBS miles.",
-    "applyUrl": "https://www.dbs.com.sg/personal/cards/credit-cards/dbs-altitude-cards.page"
+    "applyUrl": "https://www.dbs.com.sg/personal/cards/credit-cards.page",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "dbs-live-fresh",
@@ -1578,7 +1617,7 @@
       "others": 0.005
     },
     "minIncomeSGD": 30000,
-    "annualFee": 194.40,
+    "annualFee": 194.4,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 600,
     "perks": [
@@ -1589,7 +1628,8 @@
     "welcomeBonus": "Check DBS website for current welcome offer",
     "welcomeBonusValue": 0,
     "useCaseSummary": "Designed for eco-conscious millennials who spend online — 5% on online purchases and contactless dining/entertainment with a low S$600 minimum.",
-    "applyUrl": "https://www.dbs.com.sg/personal/cards/credit-cards/dbs-live-fresh-card.page"
+    "applyUrl": "https://www.dbs.com.sg/personal/cards/credit-cards.page",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "dbs-yuu",
@@ -1600,13 +1640,13 @@
     "categorySelectable": false,
     "selectableOptions": [],
     "earnRates": {
-      "dining": 2.0,
+      "dining": 2,
       "travel": 0.5,
       "transport": 0.5,
-      "onlineShopping": 2.0,
+      "onlineShopping": 2,
       "retailShopping": 0.5,
-      "groceries": 5.0,
-      "healthBeauty": 2.0,
+      "groceries": 5,
+      "healthBeauty": 2,
       "entertainment": 0.5,
       "subscriptions": 0.5,
       "education": 0.5,
@@ -1618,7 +1658,7 @@
       "transport": 0.01,
       "onlineShopping": 0.04,
       "retailShopping": 0.01,
-      "groceries": 0.10,
+      "groceries": 0.1,
       "healthBeauty": 0.04,
       "entertainment": 0.01,
       "subscriptions": 0.01,
@@ -1626,7 +1666,7 @@
       "others": 0.01
     },
     "minIncomeSGD": 30000,
-    "annualFee": 196.20,
+    "annualFee": 196.2,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -1638,7 +1678,8 @@
     "welcomeBonus": "Check DBS website for current welcome offer",
     "welcomeBonusValue": 0,
     "useCaseSummary": "The best card for NTUC FairPrice, Giant, and Cheers shoppers — earns generous yuu Points redeemable across 150+ partner brands.",
-    "applyUrl": "https://www.dbs.com.sg/personal/cards/credit-cards/dbs-yuu-cards.page"
+    "applyUrl": "https://www.dbs.com.sg/personal/cards/credit-cards.page",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "posb-everyday",
@@ -1649,9 +1690,9 @@
     "categorySelectable": false,
     "selectableOptions": [],
     "earnRates": {
-      "dining": 0.10,
+      "dining": 0.1,
       "travel": 0.003,
-      "transport": 0.10,
+      "transport": 0.1,
       "onlineShopping": 0.05,
       "retailShopping": 0.003,
       "groceries": 0.05,
@@ -1662,9 +1703,9 @@
       "others": 0.003
     },
     "cashbackEquivalent": {
-      "dining": 0.10,
+      "dining": 0.1,
       "travel": 0.003,
-      "transport": 0.10,
+      "transport": 0.1,
       "onlineShopping": 0.05,
       "retailShopping": 0.003,
       "groceries": 0.05,
@@ -1675,7 +1716,7 @@
       "others": 0.003
     },
     "minIncomeSGD": 30000,
-    "annualFee": 194.40,
+    "annualFee": 194.4,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 800,
     "perks": [
@@ -1687,7 +1728,8 @@
     "welcomeBonus": "Up to S$388 cashback for new cardmembers",
     "welcomeBonusValue": 388,
     "useCaseSummary": "A practical everyday card for Singaporeans who commute via SimplyGo, dine out regularly, and shop at NTUC or online — covers most daily spending needs.",
-    "applyUrl": "https://www.posb.com.sg/personal/cards/credit-cards/everyday-card"
+    "applyUrl": "https://www.dbs.com.sg/personal/cards/credit-cards.page",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "dbs-vantage",
@@ -1724,7 +1766,7 @@
       "others": 0.03
     },
     "minIncomeSGD": 120000,
-    "annualFee": 599.00,
+    "annualFee": 599,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -1737,7 +1779,8 @@
     "welcomeBonus": "Check DBS website for current welcome offer",
     "welcomeBonusValue": 0,
     "useCaseSummary": "DBS's premium Visa Infinite card with unlimited lounge access, airport transfers, and strong hotel booking miles for high-income frequent travellers.",
-    "applyUrl": "https://www.dbs.com.sg/personal/cards/credit-cards/dbs-vantage-visa-infinite-card.page"
+    "applyUrl": "https://www.dbs.com.sg/personal/cards/credit-cards.page",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "maybank-world-mastercard",
@@ -1748,14 +1791,14 @@
     "categorySelectable": false,
     "selectableOptions": [],
     "earnRates": {
-      "dining": 2.0,
-      "travel": 2.0,
+      "dining": 2,
+      "travel": 2,
       "transport": 0.8,
       "onlineShopping": 0.8,
       "retailShopping": 0.8,
       "groceries": 0.8,
       "healthBeauty": 0.8,
-      "entertainment": 2.0,
+      "entertainment": 2,
       "subscriptions": 0.8,
       "education": 0.8,
       "others": 0.8
@@ -1774,7 +1817,7 @@
       "others": 0.016
     },
     "minIncomeSGD": 80000,
-    "annualFee": 240.00,
+    "annualFee": 240,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -1786,7 +1829,8 @@
     "welcomeBonus": "Check Maybank website for current welcome offer",
     "welcomeBonusValue": 0,
     "useCaseSummary": "A mid-tier miles card for Maybank customers who dine, travel, and entertain often. The unlimited Priority Pass lounge access stands out at this fee level.",
-    "applyUrl": "https://www.maybank.com.sg/en/personal/cards/credit-cards"
+    "applyUrl": "https://www.maybank2u.com.sg/en/personal/cards/credit-cards.page",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "maybank-family-friends",
@@ -1823,7 +1867,7 @@
       "others": 0.008
     },
     "minIncomeSGD": 30000,
-    "annualFee": 180.00,
+    "annualFee": 180,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 500,
     "perks": [
@@ -1834,7 +1878,8 @@
     "welcomeBonus": "Check Maybank website for current welcome offer",
     "welcomeBonusValue": 0,
     "useCaseSummary": "Designed for families — earns 8% across five everyday categories including groceries, dining, transport, and education with a modest S$500 minimum spend.",
-    "applyUrl": "https://www.maybank.com.sg/en/personal/cards/credit-cards"
+    "applyUrl": "https://www.maybank2u.com.sg/en/personal/cards/credit-cards.page",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "citi-cashback",
@@ -1871,7 +1916,7 @@
       "others": 0.0025
     },
     "minIncomeSGD": 30000,
-    "annualFee": 196.20,
+    "annualFee": 196.2,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 800,
     "perks": [
@@ -1883,7 +1928,8 @@
     "welcomeBonus": "Up to S$300 cashback for new cardmembers",
     "welcomeBonusValue": 300,
     "useCaseSummary": "A top pick for those who concentrate spend on dining, groceries, and petrol — 8% across all three categories with a low S$800 minimum spend.",
-    "applyUrl": "https://www.citibank.com.sg/credit-cards/cashback/"
+    "applyUrl": "https://www.citibank.com.sg/credit-cards/",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "citi-cashback-plus",
@@ -1920,7 +1966,7 @@
       "others": 0.016
     },
     "minIncomeSGD": 30000,
-    "annualFee": 196.20,
+    "annualFee": 196.2,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -1931,7 +1977,8 @@
     "welcomeBonus": "Up to S$300 cashback for new cardmembers",
     "welcomeBonusValue": 300,
     "useCaseSummary": "Citibank's simplest cashback card — flat 1.6% on everything with no conditions. Perfect as a catch-all card for miscellaneous spending.",
-    "applyUrl": "https://www.citibank.com.sg/credit-cards/cashback-plus/"
+    "applyUrl": "https://www.citibank.com.sg/credit-cards/",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "citi-rewards",
@@ -1942,13 +1989,13 @@
     "categorySelectable": false,
     "selectableOptions": [],
     "earnRates": {
-      "dining": 4.0,
-      "travel": 4.0,
-      "transport": 4.0,
-      "onlineShopping": 4.0,
-      "retailShopping": 4.0,
+      "dining": 4,
+      "travel": 4,
+      "transport": 4,
+      "onlineShopping": 4,
+      "retailShopping": 4,
       "groceries": 0.4,
-      "healthBeauty": 4.0,
+      "healthBeauty": 4,
       "entertainment": 0.4,
       "subscriptions": 0.4,
       "education": 0.4,
@@ -1968,7 +2015,7 @@
       "others": 0.008
     },
     "minIncomeSGD": 30000,
-    "annualFee": 196.20,
+    "annualFee": 196.2,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -1980,7 +2027,8 @@
     "welcomeBonus": "Up to 30,000 bonus points for new cardmembers",
     "welcomeBonusValue": 600,
     "useCaseSummary": "One of the best shopping-focused miles cards — earns 4 mpd on all online shopping, retail, taxi rides and department stores with no monthly cap.",
-    "applyUrl": "https://www.citibank.com.sg/credit-cards/rewards/"
+    "applyUrl": "https://www.citibank.com.sg/credit-cards/",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "citi-premiermiles",
@@ -1992,7 +2040,7 @@
     "selectableOptions": [],
     "earnRates": {
       "dining": 1.2,
-      "travel": 2.0,
+      "travel": 2,
       "transport": 1.2,
       "onlineShopping": 1.2,
       "retailShopping": 1.2,
@@ -2017,7 +2065,7 @@
       "others": 0.024
     },
     "minIncomeSGD": 30000,
-    "annualFee": 196.20,
+    "annualFee": 196.2,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -2030,7 +2078,8 @@
     "welcomeBonus": "Up to 37,300 bonus miles for new cardmembers with qualifying spend",
     "welcomeBonusValue": 746,
     "useCaseSummary": "Citibank's flagship mid-tier miles card with never-expiring miles and boosted rates on Citi's travel portal. Suitable for frequent flyers who want flexibility.",
-    "applyUrl": "https://www.citibank.com.sg/credit-cards/premiermiles/"
+    "applyUrl": "https://www.citibank.com.sg/credit-cards/",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "citi-prestige",
@@ -2067,7 +2116,7 @@
       "others": 0.026
     },
     "minIncomeSGD": 120000,
-    "annualFee": 535.00,
+    "annualFee": 535,
     "firstYearFeeWaived": false,
     "minMonthlySpend": 0,
     "perks": [
@@ -2080,7 +2129,8 @@
     "welcomeBonus": "Up to 62,500 Citi ThankYou Points for new cardmembers",
     "welcomeBonusValue": 1250,
     "useCaseSummary": "A premium travel card for frequent hotel stayers and golfers — the 4th night free hotel benefit alone can easily exceed the annual fee for those who travel often.",
-    "applyUrl": "https://www.citibank.com.sg/credit-cards/prestige/"
+    "applyUrl": "https://www.citibank.com.sg/credit-cards/",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "amex-true-cashback",
@@ -2117,7 +2167,7 @@
       "others": 0.015
     },
     "minIncomeSGD": 30000,
-    "annualFee": 171.20,
+    "annualFee": 171.2,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -2129,7 +2179,8 @@
     "welcomeBonus": "3% cashback in first 6 months on up to S$5,000 spend (worth up to S$150)",
     "welcomeBonusValue": 150,
     "useCaseSummary": "Amex's simplest unlimited cashback card with a generous first-6-months bonus rate. Great for those who want flat-rate rewards on all Amex-accepted spend.",
-    "applyUrl": "https://www.americanexpress.com/en-sg/credit-cards/true-cashback-card/"
+    "applyUrl": "https://www.americanexpress.com/en-sg/credit-cards/",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "amex-krisflyer",
@@ -2141,7 +2192,7 @@
     "selectableOptions": [],
     "earnRates": {
       "dining": 1.1,
-      "travel": 2.0,
+      "travel": 2,
       "transport": 1.1,
       "onlineShopping": 1.1,
       "retailShopping": 1.1,
@@ -2179,7 +2230,8 @@
     "welcomeBonus": "5,000 KrisFlyer miles upon card approval and first spend",
     "welcomeBonusValue": 100,
     "useCaseSummary": "Ideal for KrisFlyer loyalists who want miles credited directly without conversion fees. Best for SIA brand shoppers and frequent SQ flyers.",
-    "applyUrl": "https://www.americanexpress.com/en-sg/credit-cards/krisflyer-credit-card/"
+    "applyUrl": "https://www.americanexpress.com/en-sg/credit-cards/",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "amex-krisflyer-ascend",
@@ -2191,7 +2243,7 @@
     "selectableOptions": [],
     "earnRates": {
       "dining": 1.2,
-      "travel": 2.0,
+      "travel": 2,
       "transport": 1.2,
       "onlineShopping": 1.2,
       "retailShopping": 1.2,
@@ -2229,7 +2281,8 @@
     "welcomeBonus": "15,000 KrisFlyer miles upon card approval and qualifying spend",
     "welcomeBonusValue": 300,
     "useCaseSummary": "The premium KrisFlyer Amex card with lounge access and hotel stays — best for SIA loyalists who want status benefits and airport perks alongside their miles earning.",
-    "applyUrl": "https://www.americanexpress.com/en-sg/credit-cards/krisflyer-ascend-credit-card/"
+    "applyUrl": "https://www.americanexpress.com/en-sg/credit-cards/",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "amex-platinum-credit",
@@ -2266,7 +2319,7 @@
       "others": 0.025
     },
     "minIncomeSGD": 50000,
-    "annualFee": 321.00,
+    "annualFee": 321,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -2279,7 +2332,8 @@
     "welcomeBonus": "Bonus Membership Rewards points on qualifying spend in first 3 months",
     "welcomeBonusValue": 500,
     "useCaseSummary": "A flexible Amex points card with strong dining and travel earn rates and a broad range of transfer partners — great for those who want optionality across airlines and hotels.",
-    "applyUrl": "https://www.americanexpress.com/en-sg/credit-cards/platinum-credit-card/"
+    "applyUrl": "https://www.americanexpress.com/en-sg/credit-cards/",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "amex-capitaland",
@@ -2290,17 +2344,17 @@
     "categorySelectable": false,
     "selectableOptions": [],
     "earnRates": {
-      "dining": 3.0,
-      "travel": 1.0,
-      "transport": 1.0,
-      "onlineShopping": 1.0,
-      "retailShopping": 1.0,
-      "groceries": 1.0,
-      "healthBeauty": 1.0,
-      "entertainment": 1.0,
-      "subscriptions": 1.0,
-      "education": 1.0,
-      "others": 1.0
+      "dining": 3,
+      "travel": 1,
+      "transport": 1,
+      "onlineShopping": 1,
+      "retailShopping": 1,
+      "groceries": 1,
+      "healthBeauty": 1,
+      "entertainment": 1,
+      "subscriptions": 1,
+      "education": 1,
+      "others": 1
     },
     "cashbackEquivalent": {
       "dining": 0.03,
@@ -2316,7 +2370,7 @@
       "others": 0.01
     },
     "minIncomeSGD": 30000,
-    "annualFee": 171.20,
+    "annualFee": 171.2,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -2329,7 +2383,8 @@
     "welcomeBonus": "Bonus STAR$ on first spend at CapitaMalls",
     "welcomeBonusValue": 80,
     "useCaseSummary": "Best for frequent CapitaMall shoppers and diners — earning CapitaStar points redeemable as shopping vouchers across 15+ malls in Singapore.",
-    "applyUrl": "https://www.americanexpress.com/en-sg/credit-cards/capitacard/"
+    "applyUrl": "https://www.americanexpress.com/en-sg/credit-cards/",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "boc-family-card",
@@ -2340,12 +2395,12 @@
     "categorySelectable": false,
     "selectableOptions": [],
     "earnRates": {
-      "dining": 0.10,
+      "dining": 0.1,
       "travel": 0.003,
       "transport": 0.003,
       "onlineShopping": 0.003,
       "retailShopping": 0.003,
-      "groceries": 0.10,
+      "groceries": 0.1,
       "healthBeauty": 0.003,
       "entertainment": 0.003,
       "subscriptions": 0.003,
@@ -2353,12 +2408,12 @@
       "others": 0.003
     },
     "cashbackEquivalent": {
-      "dining": 0.10,
+      "dining": 0.1,
       "travel": 0.003,
       "transport": 0.003,
       "onlineShopping": 0.003,
       "retailShopping": 0.003,
-      "groceries": 0.10,
+      "groceries": 0.1,
       "healthBeauty": 0.003,
       "entertainment": 0.003,
       "subscriptions": 0.003,
@@ -2366,7 +2421,7 @@
       "others": 0.003
     },
     "minIncomeSGD": 30000,
-    "annualFee": 196.20,
+    "annualFee": 196.2,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 800,
     "perks": [
@@ -2378,7 +2433,8 @@
     "welcomeBonus": "Check BOC website for current welcome offer",
     "welcomeBonusValue": 0,
     "useCaseSummary": "A straightforward family card with 10% back on the two biggest household spend categories — dining and groceries — making it ideal for families with regular supermarket and hawker spending.",
-    "applyUrl": "https://www.bankofchina.com/sg/pbservice/pb5/"
+    "applyUrl": "https://www.bankofchina.com/sg/pbservice/pb5/",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "boc-elite-miles",
@@ -2390,7 +2446,7 @@
     "selectableOptions": [],
     "earnRates": {
       "dining": 1.5,
-      "travel": 3.0,
+      "travel": 3,
       "transport": 1.5,
       "onlineShopping": 1.5,
       "retailShopping": 1.5,
@@ -2415,7 +2471,7 @@
       "others": 0.03
     },
     "minIncomeSGD": 30000,
-    "annualFee": 196.20,
+    "annualFee": 196.2,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
     "perks": [
@@ -2427,7 +2483,8 @@
     "welcomeBonus": "Check BOC website for current welcome offer",
     "welcomeBonusValue": 0,
     "useCaseSummary": "BOC's flagship miles card with a competitive 3 mpd on overseas spend. A solid option for travellers who want miles earning on a Mastercard with no minimum spend.",
-    "applyUrl": "https://www.bankofchina.com/sg/pbservice/pb5/"
+    "applyUrl": "https://www.bankofchina.com/sg/pbservice/pb5/",
+    "lastVerified": "2026-03-18"
   },
   {
     "id": "boc-sheng-siong",
@@ -2476,6 +2533,7 @@
     "welcomeBonus": "Check BOC website for current welcome offer",
     "welcomeBonusValue": 0,
     "useCaseSummary": "The definitive card for Sheng Siong shoppers — earns 8% cashback at all Sheng Siong outlets with no annual fee, making it a cost-free grocery savings tool.",
-    "applyUrl": "https://www.bankofchina.com/sg/pbservice/pb5/"
+    "applyUrl": "https://www.bankofchina.com/sg/pbservice/pb5/",
+    "lastVerified": "2026-03-18"
   }
 ]
