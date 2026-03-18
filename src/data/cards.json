@@ -1005,12 +1005,12 @@
       "travel": 4.0,
       "transport": 4.0,
       "onlineShopping": 4.0,
-      "retailShopping": 0.4,
-      "groceries": 0.4,
-      "healthBeauty": 0.4,
+      "retailShopping": 4.0,
+      "groceries": 4.0,
+      "healthBeauty": 4.0,
       "entertainment": 4.0,
       "subscriptions": 4.0,
-      "education": 0.4,
+      "education": 1.0,
       "others": 0.4
     },
     "cashbackEquivalent": {
@@ -1018,12 +1018,12 @@
       "travel": 0.08,
       "transport": 0.08,
       "onlineShopping": 0.08,
-      "retailShopping": 0.008,
-      "groceries": 0.008,
-      "healthBeauty": 0.008,
+      "retailShopping": 0.08,
+      "groceries": 0.08,
+      "healthBeauty": 0.08,
       "entertainment": 0.08,
       "subscriptions": 0.08,
-      "education": 0.008,
+      "education": 0.02,
       "others": 0.008
     },
     "minIncomeSGD": 30000,
@@ -1032,13 +1032,14 @@
     "minMonthlySpend": 0,
     "perks": [
       "Annual fee permanently waived",
-      "10X points on online and contactless transactions",
-      "4 mpd effective on eligible spend",
-      "Complimentary travel insurance (Visa Signature)"
+      "4 mpd on all contactless and online spend (effective 1 April 2026)",
+      "S$1,000/month cap at bonus rate",
+      "Complimentary travel insurance (Visa Signature — reinstated 1 April 2026)",
+      "Being upgraded to Visa Signature"
     ],
     "welcomeBonus": "Samsonite luggage (S$680 value) or S$200 cashback at S$500 spend; additional S$100 cashback at next S$500 spend",
     "welcomeBonusValue": 300,
-    "useCaseSummary": "One of Singapore's best no-fee miles cards — earns 4 mpd on online and contactless spending with a permanently waived annual fee. A must-have for online shoppers.",
+    "useCaseSummary": "Permanent 4 mpd on contactless and online spend from 1 April 2026. Being upgraded to Visa Signature with travel insurance reinstated. No annual fee.",
     "applyUrl": "https://www.newcreditcard.hsbc.com.sg/hsbcaofe/#!/app/journey/select-cards"
   },
   {

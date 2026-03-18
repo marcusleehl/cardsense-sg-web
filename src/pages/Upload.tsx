@@ -145,6 +145,17 @@ export default function Upload() {
       .flatMap((e) => e.transactions)
       .map((t) => ({ ...t, ccCategory: categorise(t) }))
 
+    // ── DEBUG: rawCategory audit ──────────────────────────────────────────────
+    const rawCatCounts: Record<string, number> = {}
+    for (const t of allTransactions) {
+      const key = t.rawCategory || '(empty)'
+      rawCatCounts[key] = (rawCatCounts[key] ?? 0) + 1
+    }
+    const sorted = Object.entries(rawCatCounts).sort((a, b) => b[1] - a[1])
+    console.log(`[rawCategory audit] ${allTransactions.length} transactions, ${sorted.length} unique rawCategory values:`)
+    sorted.forEach(([cat, count]) => console.log(`  ${String(count).padStart(4)}x  "${cat}"`))
+    // ── END DEBUG ─────────────────────────────────────────────────────────────
+
     const spendProfile = buildSpendProfile(allTransactions)
     navigate('/analysis', { state: { transactions: allTransactions, spendProfile } })
   }

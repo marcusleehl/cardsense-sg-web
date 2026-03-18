@@ -84,7 +84,9 @@ const KEYWORD_MAP: Record<Category, string[]> = {
     'tuition', 'skillsfuture', 'udemy', 'coursera', 'popular bookstore',
     'times bookstore', 'kinokuniya', 'school fees',
   ],
-  OTHERS: [],
+  // Explicit OTHERS: checked before rawCategory so a Money Manager tag like
+  // "shopping" or "transfer" cannot accidentally promote these to another bucket.
+  OTHERS: ['ibkr', 'revolut'],
 }
 
 // ── rawCategory → Category mapping ───────────────────────────────────────────
@@ -129,10 +131,21 @@ function loadOverrides(): Map<string, Category> {
 
 const overrideCache: Map<string, Category> = loadOverrides()
 
+// ── DEBUG: log cache on module load ──────────────────────────────────────────
+{
+  const entries = [...overrideCache.entries()]
+  if (entries.length === 0) {
+    console.log('[categoriser] overrideCache loaded — EMPTY (no saved overrides in localStorage)')
+  } else {
+    console.log(`[categoriser] overrideCache loaded — ${entries.length} override(s):`)
+    entries.forEach(([k, v]) => console.log(`  "${k}" → ${v}`))
+  }
+}
+
 // ── exported functions ────────────────────────────────────────────────────────
 
 export function overrideCategory(merchant: string, category: string): void {
-  const key = merchant.toLowerCase()
+  const key = merchant.toLowerCase().trim()
   overrideCache.set(key, category as Category)
   try {
     const obj: Record<string, string> = {}
@@ -144,32 +157,48 @@ export function overrideCategory(merchant: string, category: string): void {
 }
 
 export function categorise(transaction: Transaction): Category {
-  const merchantLower = transaction.merchant.toLowerCase()
+  const merchantRaw = transaction.merchant
+  const merchantLower = merchantRaw.toLowerCase().trim()
   const rawLower = transaction.rawCategory.toLowerCase().trim()
 
-  // 1. User override
+  // 1. User override — key is always lowercased + trimmed merchant name
   const override = overrideCache.get(merchantLower)
-  if (override) return override
 
-  // 2. rawCategory direct match — but for Shopping, fall through to keyword
-  //    check so we can distinguish Online vs Retail.
-  if (rawLower && rawLower !== 'shopping') {
-    const mapped = RAW_CATEGORY_MAP[rawLower]
-    if (mapped) return mapped
+  let result: Category
+
+  if (override) {
+    result = override
+  } else if (KEYWORD_MAP.OTHERS.some((kw) => merchantLower.includes(kw))) {
+    // 2. Explicit OTHERS list — checked before rawCategory so Money Manager tags
+    //    like "shopping" cannot misclassify investment/transfer merchants.
+    result = 'OTHERS'
+  } else if (rawLower && rawLower !== 'shopping' && RAW_CATEGORY_MAP[rawLower]) {
+    // 3. rawCategory direct match — but for Shopping, fall through to keyword
+    //    check so we can distinguish Online vs Retail.
+    result = RAW_CATEGORY_MAP[rawLower]
+  } else {
+    // 4. Keyword substring search on merchant name.
+    //    Iterate categories in declaration order (DINING before TRANSPORT)
+    //    so that "grab food" / "grabfood" is caught before the plain "grab" entry.
+    result = 'OTHERS'
+    for (const cat of CATEGORIES) {
+      if (cat === 'OTHERS') continue
+      if (KEYWORD_MAP[cat].some((kw) => merchantLower.includes(kw))) {
+        result = cat
+        break
+      }
+    }
+
+    // 5. rawCategory shopping fallback
+    if (result === 'OTHERS' && rawLower === 'shopping') result = 'RETAIL SHOPPING'
   }
 
-  // 3. Keyword substring search on merchant name.
-  //    Iterate categories in declaration order (DINING before TRANSPORT)
-  //    so that "grab food" / "grabfood" is caught before the plain "grab" entry.
-  for (const cat of CATEGORIES) {
-    if (cat === 'OTHERS') continue
-    const keywords = KEYWORD_MAP[cat]
-    if (keywords.some((kw) => merchantLower.includes(kw))) return cat
-  }
+  // ── DEBUG ──────────────────────────────────────────────────────────────────
+  console.log(
+    `[categorise] "${merchantRaw}" → key="${merchantLower}" | ` +
+    `rawCat="${rawLower}" | override=${override ?? 'none'} | result=${result}`
+  )
+  // ──────────────────────────────────────────────────────────────────────────
 
-  // 4. rawCategory shopping fallback
-  if (rawLower === 'shopping') return 'RETAIL SHOPPING'
-
-  // 5. Default
-  return 'OTHERS'
+  return result
 }

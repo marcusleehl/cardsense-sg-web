@@ -139,6 +139,15 @@ export default function Analysis() {
           />
         </div>
 
+        {/* ── Continue button (top) ─────────────────────────────────── */}
+        <button
+          onClick={() => navigate('/preferences', { state: { spendProfile } })}
+          className="w-full py-3 rounded-xl text-white font-semibold text-base transition-opacity mb-8"
+          style={{ backgroundColor: '#1F4E79' }}
+        >
+          Continue to Preferences →
+        </button>
+
         {/* ── Donut chart ───────────────────────────────────────────── */}
         {donutData.length > 0 && (
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-8">
