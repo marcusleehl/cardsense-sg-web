@@ -76,31 +76,38 @@ function parseJsonFromText(text: string): unknown {
 }
 
 function buildVerificationPrompt(card: CardRecord): string {
+  const isCashback = card.rewardType === 'cashback'
+  const rateUnit = isCashback ? 'decimal (e.g. 0.05 = 5% cashback)' : 'mpd (miles per dollar)'
   const rateLines = ['dining', 'travel', 'transport', 'onlineShopping', 'groceries']
-    .map((k) => `  - ${k}: ${(card.earnRates[k] ?? 0)} ${card.rewardType === 'cashback' ? 'cashback %' : 'mpd'}`)
+    .map((k) => `  - ${k}: ${(card.earnRates[k] ?? 0)}`)
     .join('\n')
 
   return `You are verifying credit card data for Singapore.
 
+IMPORTANT SCHEMA CONSTRAINTS — read carefully before responding:
+1. We store ONE earn rate per spending category — the LOCAL (Singapore) rate only. Do NOT suggest separate overseas rates; our schema cannot store them.
+2. ${isCashback
+    ? 'This is a CASHBACK card. Earn rates are stored as decimals: 0.05 means 5% cashback, 0.03 means 3%, etc.'
+    : 'This is a MILES card. Earn rates are stored as miles per dollar (mpd): 1.4 means 1.4 mpd, 4.0 means 4 mpd, etc.'}
+3. Only flag a genuine rate discrepancy if the stored value is actually wrong — not just formatted differently or missing an overseas split.
+
 Card to verify: ${card.name} from ${card.bank}.
-Our current data shows:
+Our current data (earn rates as ${rateUnit}):
 - Reward type: ${card.rewardType}
-- Dining earn rate: ${card.earnRates.dining ?? 0} ${card.rewardType === 'cashback' ? 'cashback %' : 'mpd'}
-- Travel earn rate: ${card.earnRates.travel ?? 0}
 - Annual fee: SGD ${card.annualFee}${card.firstYearFeeWaived ? ' (first year waived)' : ''}
 - Min income: SGD ${card.minIncomeSGD}
-- Key earn rates:
+- Earn rates (local Singapore rates):
 ${rateLines}
 - Perks: ${card.perks.join(', ') || 'none listed'}
 - Welcome bonus: ${card.welcomeBonus || 'none listed'}
 
 Based on your knowledge about this card, identify:
-1. Any earn rates that appear incorrect or outdated
+1. Any LOCAL earn rates that are genuinely incorrect or outdated (ignore overseas rates — we don't store them)
 2. Any missing perks or features
 3. Any active welcome bonuses or promotions
 4. Confidence level: HIGH (confident), MEDIUM (somewhat confident), or LOW (uncertain)
 
-If you have structured corrections (specific field → new value pairs), include them in "corrections".
+If you have structured corrections (specific field → new value pairs), include them in "corrections". For earn rate corrections use the same decimal/mpd format as our stored values.
 
 Respond in this exact JSON format with no other text:
 {
