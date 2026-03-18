@@ -1,36 +1,155 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useCallback, DragEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Footer from '../components/Footer'
+import { parseExcelFile } from '../utils/excelParser'
+import { parsePdfFile } from '../utils/pdfParser'
+import { categorise } from '../utils/categoriser'
+import type { Transaction } from '../utils/excelParser'
+import type { SpendProfile } from './Analysis'
 
-interface UploadedFile {
+// ── per-file state ────────────────────────────────────────────────────────────
+
+type FileStatus = 'parsing' | 'success' | 'error'
+
+interface UploadEntry {
   id: string
   file: File
+  status: FileStatus
+  transactions: Transaction[]
+  txCount: number
+  error: string
 }
+
+// ── helpers ───────────────────────────────────────────────────────────────────
+
+function formatSize(bytes: number) {
+  if (bytes < 1024) return `${bytes} B`
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+}
+
+function buildSpendProfile(transactions: Transaction[]): SpendProfile {
+  const categoryTotals: Record<string, number> = {}
+  for (const tx of transactions) {
+    categoryTotals[tx.ccCategory] = (categoryTotals[tx.ccCategory] ?? 0) + tx.amount
+  }
+
+  const dates = transactions.map((t) => t.date).sort()
+  const dateFrom = dates[0] ?? ''
+  const dateTo = dates[dates.length - 1] ?? ''
+
+  let months = 1
+  if (dateFrom && dateTo) {
+    const from = new Date(dateFrom)
+    const to = new Date(dateTo)
+    months = Math.max(
+      1,
+      (to.getFullYear() - from.getFullYear()) * 12 + (to.getMonth() - from.getMonth()) + 1
+    )
+  }
+
+  const avgMonthlyByCategory: Record<string, number> = {}
+  for (const [cat, total] of Object.entries(categoryTotals)) {
+    avgMonthlyByCategory[cat] = total / months
+  }
+
+  return {
+    categoryTotals,
+    avgMonthlyByCategory,
+    totalSpend: transactions.reduce((s, t) => s + t.amount, 0),
+    transactionCount: transactions.length,
+    dateRange: { from: dateFrom, to: dateTo },
+    months,
+  }
+}
+
+// ── component ─────────────────────────────────────────────────────────────────
 
 export default function Upload() {
   const navigate = useNavigate()
   const xlsxInputRef = useRef<HTMLInputElement>(null)
   const pdfInputRef = useRef<HTMLInputElement>(null)
-  const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([])
 
-  function handleFiles(files: FileList | null) {
+  const [entries, setEntries] = useState<UploadEntry[]>([])
+  const [dragOver, setDragOver] = useState(false)
+
+  // ── parse a single file and update its entry ────────────────────────────
+
+  async function parseAndAdd(file: File) {
+    const id = `${file.name}-${Date.now()}-${Math.random()}`
+
+    // Immediately add entry in 'parsing' state
+    setEntries((prev) => [
+      ...prev,
+      { id, file, status: 'parsing', transactions: [], txCount: 0, error: '' },
+    ])
+
+    try {
+      const parsed = file.name.endsWith('.pdf')
+        ? await parsePdfFile(file)
+        : await parseExcelFile(file)
+
+      setEntries((prev) =>
+        prev.map((e) =>
+          e.id === id
+            ? { ...e, status: 'success', transactions: parsed, txCount: parsed.length }
+            : e
+        )
+      )
+    } catch (err) {
+      setEntries((prev) =>
+        prev.map((e) =>
+          e.id === id
+            ? { ...e, status: 'error', error: err instanceof Error ? err.message : String(err) }
+            : e
+        )
+      )
+    }
+  }
+
+  function handleFileList(files: FileList | null) {
     if (!files) return
-    const newFiles: UploadedFile[] = Array.from(files).map((file) => ({
-      id: `${file.name}-${Date.now()}-${Math.random()}`,
-      file,
-    }))
-    setUploadedFiles((prev) => [...prev, ...newFiles])
+    Array.from(files).forEach((file) => parseAndAdd(file))
   }
 
-  function removeFile(id: string) {
-    setUploadedFiles((prev) => prev.filter((f) => f.id !== id))
+  function removeEntry(id: string) {
+    setEntries((prev) => prev.filter((e) => e.id !== id))
   }
 
-  function formatSize(bytes: number) {
-    if (bytes < 1024) return `${bytes} B`
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
-    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+  // ── drag and drop ───────────────────────────────────────────────────────
+
+  const handleDragOver = useCallback((e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    setDragOver(true)
+  }, [])
+
+  const handleDragLeave = useCallback((e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    setDragOver(false)
+  }, [])
+
+  const handleDrop = useCallback((e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    setDragOver(false)
+    handleFileList(e.dataTransfer.files)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ── analyse ─────────────────────────────────────────────────────────────
+
+  const successEntries = entries.filter((e) => e.status === 'success')
+  const hasSuccess = successEntries.length > 0
+  const anyParsing = entries.some((e) => e.status === 'parsing')
+
+  function handleAnalyse() {
+    const allTransactions = successEntries
+      .flatMap((e) => e.transactions)
+      .map((t) => ({ ...t, ccCategory: categorise(t) }))
+
+    const spendProfile = buildSpendProfile(allTransactions)
+    navigate('/analysis', { state: { transactions: allTransactions, spendProfile } })
   }
+
+  // ── render ───────────────────────────────────────────────────────────────
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -45,9 +164,22 @@ export default function Upload() {
           </p>
 
           {/* Upload area */}
-          <div className="border-2 border-dashed border-blue-200 rounded-2xl p-8 bg-white text-center">
+          <div
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            className="rounded-2xl p-8 bg-white text-center transition-colors"
+            style={{
+              border: dragOver
+                ? '2px dashed #1F4E79'
+                : '2px dashed #BFDBFE',
+              backgroundColor: dragOver ? '#EFF6FF' : '#FFFFFF',
+            }}
+          >
             <p className="text-gray-500 mb-6 text-sm">
-              Upload your spending data to get started
+              {dragOver
+                ? 'Drop to import…'
+                : 'Upload your spending data to get started'}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center mb-4">
@@ -67,15 +199,17 @@ export default function Upload() {
               </button>
             </div>
 
-            <p className="text-xs text-gray-400">You can import multiple files</p>
+            <p className="text-xs text-gray-400">
+              Or drag and drop files here · You can import multiple files
+            </p>
 
             <input
               ref={xlsxInputRef}
               type="file"
-              accept=".xlsx,.xls"
+              accept=".xlsx,.csv"
               multiple
               className="hidden"
-              onChange={(e) => handleFiles(e.target.files)}
+              onChange={(e) => { handleFileList(e.target.files); e.target.value = '' }}
             />
             <input
               ref={pdfInputRef}
@@ -83,28 +217,54 @@ export default function Upload() {
               accept=".pdf"
               multiple
               className="hidden"
-              onChange={(e) => handleFiles(e.target.files)}
+              onChange={(e) => { handleFileList(e.target.files); e.target.value = '' }}
             />
           </div>
 
           {/* File list */}
-          {uploadedFiles.length > 0 && (
+          {entries.length > 0 && (
             <ul className="mt-4 space-y-2">
-              {uploadedFiles.map(({ id, file }) => (
+              {entries.map((entry) => (
                 <li
-                  key={id}
+                  key={entry.id}
                   className="flex items-center justify-between bg-white rounded-lg px-4 py-3 border border-gray-100 shadow-sm"
                 >
-                  <div className="flex items-center gap-3 min-w-0">
-                    <span className="text-lg">{file.name.endsWith('.pdf') ? '📄' : '📊'}</span>
-                    <div className="min-w-0">
-                      <p className="text-sm font-medium text-gray-700 truncate">{file.name}</p>
-                      <p className="text-xs text-gray-400">{formatSize(file.size)}</p>
+                  <div className="flex items-center gap-3 min-w-0 flex-1">
+                    <span className="text-lg flex-shrink-0">
+                      {entry.file.name.endsWith('.pdf') ? '📄' : '📊'}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-medium text-gray-700 truncate">
+                        {entry.file.name}
+                      </p>
+                      <p className="text-xs text-gray-400">{formatSize(entry.file.size)}</p>
                     </div>
+
+                    {/* Status badge */}
+                    {entry.status === 'parsing' && (
+                      <span className="flex items-center gap-1.5 text-xs text-gray-400 flex-shrink-0">
+                        <Spinner />
+                        Reading your transactions
+                      </span>
+                    )}
+                    {entry.status === 'success' && (
+                      <span className="flex items-center gap-1 text-xs font-medium text-green-700 bg-green-50 border border-green-200 px-2 py-0.5 rounded-full flex-shrink-0">
+                        ✓ {entry.txCount} transaction{entry.txCount !== 1 ? 's' : ''}
+                      </span>
+                    )}
+                    {entry.status === 'error' && (
+                      <span
+                        className="flex items-center gap-1 text-xs font-medium text-red-700 bg-red-50 border border-red-200 px-2 py-0.5 rounded-full flex-shrink-0 max-w-[200px] truncate"
+                        title={entry.error}
+                      >
+                        ✕ {entry.error}
+                      </span>
+                    )}
                   </div>
+
                   <button
-                    onClick={() => removeFile(id)}
-                    className="ml-4 text-gray-300 hover:text-red-400 transition-colors text-xl leading-none flex-shrink-0"
+                    onClick={() => removeEntry(entry.id)}
+                    className="ml-3 text-gray-300 hover:text-red-400 transition-colors text-xl leading-none flex-shrink-0"
                     aria-label="Remove file"
                   >
                     ×
@@ -116,16 +276,43 @@ export default function Upload() {
 
           {/* Analyse button */}
           <button
-            disabled={uploadedFiles.length === 0}
-            onClick={() => navigate('/analysis', { state: { files: uploadedFiles.map((f) => f.file) } })}
+            disabled={!hasSuccess || anyParsing}
+            onClick={handleAnalyse}
             className="mt-6 w-full py-3 rounded-xl text-white font-semibold text-base transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
             style={{ backgroundColor: '#1F4E79' }}
           >
-            Analyse My Spending
+            {anyParsing ? 'Reading your transactions…' : 'Analyse My Spending'}
           </button>
         </div>
       </main>
       <Footer />
     </div>
+  )
+}
+
+// ── Spinner ───────────────────────────────────────────────────────────────────
+
+function Spinner() {
+  return (
+    <svg
+      className="animate-spin h-3.5 w-3.5 text-gray-400"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle
+        className="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="4"
+      />
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+      />
+    </svg>
   )
 }

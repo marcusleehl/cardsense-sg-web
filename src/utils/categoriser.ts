@@ -1,56 +1,175 @@
 import type { Transaction } from './excelParser'
 
-export type SpendCategory =
-  | 'dining'
-  | 'groceries'
-  | 'transport'
-  | 'petrol'
-  | 'online'
-  | 'travel'
-  | 'entertainment'
-  | 'utilities'
-  | 'other'
+export type { Transaction }
 
-const CATEGORY_KEYWORDS: Record<SpendCategory, string[]> = {
-  dining: ['restaurant', 'cafe', 'food', 'mcdonald', 'kfc', 'grab food', 'foodpanda'],
-  groceries: ['fairprice', 'ntuc', 'cold storage', 'giant', 'sheng siong', 'supermarket'],
-  transport: ['mrt', 'bus', 'grab', 'gojek', 'taxi', 'ez-link', 'transit'],
-  petrol: ['shell', 'esso', 'caltex', 'sinopec', 'petronas', 'petrol'],
-  online: ['shopee', 'lazada', 'amazon', 'qoo10', 'zalora', 'online'],
-  travel: ['airline', 'hotel', 'airbnb', 'booking.com', 'agoda', 'changi'],
-  entertainment: ['cinema', 'netflix', 'spotify', 'cinema', 'shaw', 'golden village'],
-  utilities: ['sp group', 'singtel', 'starhub', 'm1', 'electricity', 'internet'],
-  other: [],
+export const CATEGORIES = [
+  'DINING',
+  'TRAVEL',
+  'TRANSPORT',
+  'ONLINE SHOPPING',
+  'RETAIL SHOPPING',
+  'GROCERIES',
+  'HEALTH AND BEAUTY',
+  'ENTERTAINMENT',
+  'STREAMING AND SUBSCRIPTIONS',
+  'EDUCATION',
+  'OTHERS',
+] as const
+
+export type Category = typeof CATEGORIES[number]
+
+// ── keyword tables ────────────────────────────────────────────────────────────
+
+const KEYWORD_MAP: Record<Category, string[]> = {
+  DINING: [
+    'grab food', 'grabfood', 'foodpanda', 'food panda', 'deliveroo',
+    'mcdonald', 'mcdonalds', 'kfc', 'subway', 'toast box', 'yakun', 'ya kun',
+    'koufu', 'ding tai fung', 'din tai fung', 'bengawan', 'old chang kee',
+    'wingstop', 'poulet', 'sushi', 'ramen', 'prata', 'nasi', 'kopitiam',
+    'hawker', 'restaurant', 'bistro', 'cafe', 'coffee bean', 'starbucks',
+    'bengawan solo', 'stuffd', '6hands', 'foc restaurant', 'burger', 'pizza',
+    'noodle', 'chicken rice',
+  ],
+  TRAVEL: [
+    'singapore airlines', 'sia', 'scoot', 'tigerair', 'airasia',
+    'cathay pacific', 'jal', 'japan airlines', 'qantas', 'emirates',
+    'lufthansa', 'british airways', 'hotel', 'marriott', 'hilton',
+    'shangri-la', 'hyatt', 'ihg', 'intercontinental', 'agoda',
+    'booking.com', 'expedia', 'trip.com', 'klook', 'changi airport',
+    'travel insurance', 'flight', 'air ticket', 'airticket',
+    'hcm', 'vietnam', 'batam', 'bali', 'bangkok',
+    'malaysia', 'kuala lumpur', 'kl ',
+  ],
+  TRANSPORT: [
+    // NOTE: "grab" alone maps to TRANSPORT; "grab food" / "grabfood" must be
+    // caught first by the DINING rule (keyword search runs DINING before TRANSPORT).
+    'grab taxi', 'grabcar', 'grabshare', 'gojek', 'comfort', 'comfortdelgro',
+    'ez-link', 'ezlink', 'simplygo', 'smrt', 'lta', 'transitlink', 'mrt',
+    'petrol', 'shell', 'caltex', 'spc', 'esso',
+    // plain "grab" is appended last so the longer DINING variants win
+    'grab',
+  ],
+  'ONLINE SHOPPING': [
+    'lazada', 'shopee', 'amazon', 'taobao', 'qoo10', 'zalora', 'asos',
+    'love bonito', 'shein', 'aliexpress', 'carousell', 'esim',
+  ],
+  'RETAIL SHOPPING': [
+    'uniqlo', 'zara', 'h&m', 'mango', 'charles keith', 'pedro', 'ikea',
+    'courts', 'harvey norman', 'best denki', 'challenger', 'robinsons',
+    'tangs', 'marks spencer', 'socks', 'airpods', 'clothes', 'shirt',
+    'shoes', 'apple store', 'computer', 'laptop',
+  ],
+  GROCERIES: [
+    'ntuc', 'fairprice', 'cold storage', 'sheng siong', 'giant', 'redmart',
+    'jasons', 'the market place', 'marketplace',
+  ],
+  'HEALTH AND BEAUTY': [
+    'clinic', 'polyclinic', 'hospital', 'dental', 'dentist', 'optical',
+    'guardian', 'watsons', 'unity pharmacy', 'supplement', 'vitamin', 'gym',
+    'fitness first', 'anytime fitness', 'yoga', 'pilates', 'spa', 'massage',
+    'raffles medical', 'parkway', 'shampoo', 'venus', 'conditioner',
+    'skincare', 'facial',
+  ],
+  ENTERTAINMENT: [
+    'golden village', 'gv cinema', 'shaw', 'cathay cinemas', 'sistic',
+    'concert', 'klook', 'toto', '4d', 'escape room', 'theme park', 'zoo',
+    'river safari', 'gardens by the bay', 'karaoke', 'nsrcc', 'bowling',
+  ],
+  'STREAMING AND SUBSCRIPTIONS': [
+    'netflix', 'disney', 'spotify', 'apple music', 'youtube premium', 'hbo',
+    'amazon prime', 'singtel', 'starhub', 'm1', 'circle life', 'icloud',
+    'microsoft', 'google one', 'adobe', 'dropbox', 'norton', 'mcafee',
+  ],
+  EDUCATION: [
+    'tuition', 'skillsfuture', 'udemy', 'coursera', 'popular bookstore',
+    'times bookstore', 'kinokuniya', 'school fees',
+  ],
+  OTHERS: [],
 }
 
-export function categorise(description: string): SpendCategory {
-  const lower = description.toLowerCase()
-  for (const [category, keywords] of Object.entries(CATEGORY_KEYWORDS) as [SpendCategory, string[]][]) {
-    if (category === 'other') continue
-    if (keywords.some((kw) => lower.includes(kw))) return category
+// ── rawCategory → Category mapping ───────────────────────────────────────────
+
+// Keys are lowercased rawCategory values from Money Manager.
+const RAW_CATEGORY_MAP: Record<string, Category> = {
+  food: 'DINING',
+  dining: 'DINING',
+  drinks: 'DINING',
+  beverages: 'DINING',
+  transport: 'TRANSPORT',
+  car: 'TRANSPORT',
+  shopping: 'RETAIL SHOPPING', // refined further by keyword if needed
+  groceries: 'GROCERIES',
+  supermarket: 'GROCERIES',
+  health: 'HEALTH AND BEAUTY',
+  medical: 'HEALTH AND BEAUTY',
+  beauty: 'HEALTH AND BEAUTY',
+  entertainment: 'ENTERTAINMENT',
+  culture: 'ENTERTAINMENT',
+  subscriptions: 'STREAMING AND SUBSCRIPTIONS',
+  telco: 'STREAMING AND SUBSCRIPTIONS',
+  education: 'EDUCATION',
+  books: 'EDUCATION',
+  travel: 'TRAVEL',
+}
+
+// ── in-memory override cache ──────────────────────────────────────────────────
+
+const STORAGE_KEY = 'categoryOverrides'
+
+function loadOverrides(): Map<string, Category> {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return new Map()
+    const obj = JSON.parse(raw) as Record<string, Category>
+    return new Map(Object.entries(obj))
+  } catch {
+    return new Map()
   }
-  return 'other'
 }
 
-export interface SpendSummary {
-  category: SpendCategory
-  total: number
-  count: number
+const overrideCache: Map<string, Category> = loadOverrides()
+
+// ── exported functions ────────────────────────────────────────────────────────
+
+export function overrideCategory(merchant: string, category: string): void {
+  const key = merchant.toLowerCase()
+  overrideCache.set(key, category as Category)
+  try {
+    const obj: Record<string, string> = {}
+    overrideCache.forEach((v, k) => { obj[k] = v })
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(obj))
+  } catch {
+    // localStorage unavailable (e.g. SSR / private browsing)
+  }
 }
 
-export function summariseSpending(transactions: Transaction[]): SpendSummary[] {
-  const map = new Map<SpendCategory, SpendSummary>()
+export function categorise(transaction: Transaction): Category {
+  const merchantLower = transaction.merchant.toLowerCase()
+  const rawLower = transaction.rawCategory.toLowerCase().trim()
 
-  for (const tx of transactions) {
-    const cat = tx.category as SpendCategory ?? categorise(tx.description)
-    const existing = map.get(cat)
-    if (existing) {
-      existing.total += tx.amount
-      existing.count++
-    } else {
-      map.set(cat, { category: cat, total: tx.amount, count: 1 })
-    }
+  // 1. User override
+  const override = overrideCache.get(merchantLower)
+  if (override) return override
+
+  // 2. rawCategory direct match — but for Shopping, fall through to keyword
+  //    check so we can distinguish Online vs Retail.
+  if (rawLower && rawLower !== 'shopping') {
+    const mapped = RAW_CATEGORY_MAP[rawLower]
+    if (mapped) return mapped
   }
 
-  return Array.from(map.values()).sort((a, b) => b.total - a.total)
+  // 3. Keyword substring search on merchant name.
+  //    Iterate categories in declaration order (DINING before TRANSPORT)
+  //    so that "grab food" / "grabfood" is caught before the plain "grab" entry.
+  for (const cat of CATEGORIES) {
+    if (cat === 'OTHERS') continue
+    const keywords = KEYWORD_MAP[cat]
+    if (keywords.some((kw) => merchantLower.includes(kw))) return cat
+  }
+
+  // 4. rawCategory shopping fallback
+  if (rawLower === 'shopping') return 'RETAIL SHOPPING'
+
+  // 5. Default
+  return 'OTHERS'
 }
