@@ -90,7 +90,9 @@ export async function parsePdfFile(file: File): Promise<Transaction[]> {
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i)
     const content = await page.getTextContent()
-    const items = content.items.filter((it): it is TextItem => 'transform' in it)
+    const items = content.items
+      .filter((it) => 'str' in it && 'transform' in it)
+      .map((it) => it as unknown as TextItem)
     allLines.push(...extractLines(items))
   }
 

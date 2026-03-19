@@ -1054,7 +1054,7 @@
       "education": 0.02,
       "others": 0.008
     },
-    "minIncomeSGD": 30000,
+    "minIncomeSGD": 65000,
     "annualFee": 0,
     "firstYearFeeWaived": true,
     "minMonthlySpend": 0,
@@ -1067,7 +1067,7 @@
     ],
     "welcomeBonus": "Samsonite luggage (S$680 value) or S$200 cashback at S$500 spend; additional S$100 cashback at next S$500 spend",
     "welcomeBonusValue": 300,
-    "useCaseSummary": "Permanent 4 mpd on contactless and online spend from 1 April 2026. Being upgraded to Visa Signature with travel insurance reinstated. No annual fee.",
+    "useCaseSummary": "Permanent 4 mpd on contactless and online spend from 1 April 2026. Being upgraded to Visa Signature with travel insurance reinstated. No annual fee. Existing HSBC customers with SGD 50,000 Total Relationship Balance may qualify at SGD 30,000 income.",
     "applyUrl": "https://www.hsbc.com.sg/credit-cards/",
     "lastVerified": "2026-03-18"
   },

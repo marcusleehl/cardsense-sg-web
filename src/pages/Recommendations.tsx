@@ -323,6 +323,7 @@ export default function Recommendations() {
             promo={promoFor(hero.card.id)}
             checked={compareIds.has(hero.card.id)}
             onCompare={() => toggleCompare(hero.card.id)}
+            onNavigate={() => navigate(`/card/${hero.card.id}`, { state: { spendProfile, prefs } })}
           />
         )}
 
@@ -338,6 +339,7 @@ export default function Recommendations() {
                   promo={promoFor(result.card.id)}
                   checked={compareIds.has(result.card.id)}
                   onCompare={() => toggleCompare(result.card.id)}
+                  onNavigate={() => navigate(`/card/${result.card.id}`, { state: { spendProfile, prefs } })}
                 />
               ))}
             </div>
@@ -376,17 +378,20 @@ function HeroCard({
   promo,
   checked,
   onCompare,
+  onNavigate,
 }: {
   result: RecommendationResult
   promo: { badge: string; description: string } | undefined
   checked: boolean
   onCompare: () => void
+  onNavigate: () => void
 }) {
   const { card } = result
   return (
     <div
-      className="bg-white rounded-2xl shadow-md overflow-hidden"
+      className="bg-white rounded-2xl shadow-md overflow-hidden cursor-pointer"
       style={{ border: '2px solid #1F4E79' }}
+      onClick={onNavigate}
     >
       {/* Top accent bar */}
       <div className="h-1 w-full" style={{ backgroundColor: '#1F4E79' }} />
@@ -411,7 +416,10 @@ function HeroCard({
           </div>
 
           {/* Compare checkbox */}
-          <label className="flex items-center gap-1.5 cursor-pointer flex-shrink-0 mt-1">
+          <label
+            className="flex items-center gap-1.5 cursor-pointer flex-shrink-0 mt-1"
+            onClick={(e) => e.stopPropagation()}
+          >
             <input
               type="checkbox"
               checked={checked}
@@ -537,7 +545,9 @@ function HeroCard({
         )}
 
         {/* Apply button */}
-        <ApplyButton url={card.applyUrl} large />
+        <div onClick={(e) => e.stopPropagation()}>
+          <ApplyButton url={card.applyUrl} large />
+        </div>
       </div>
     </div>
   )
@@ -550,15 +560,20 @@ function AltCard({
   promo,
   checked,
   onCompare,
+  onNavigate,
 }: {
   result: RecommendationResult
   promo: { badge: string; description: string } | undefined
   checked: boolean
   onCompare: () => void
+  onNavigate: () => void
 }) {
   const { card } = result
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col gap-3">
+    <div
+      className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col gap-3 cursor-pointer"
+      onClick={onNavigate}
+    >
       {/* Header */}
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
@@ -576,7 +591,10 @@ function AltCard({
           <p className="text-base font-bold text-gray-900 leading-tight">{card.name}</p>
           <p className="text-xs text-gray-400">{card.bank}</p>
         </div>
-        <label className="flex items-center gap-1.5 cursor-pointer flex-shrink-0">
+        <label
+          className="flex items-center gap-1.5 cursor-pointer flex-shrink-0"
+          onClick={(e) => e.stopPropagation()}
+        >
           <input
             type="checkbox"
             checked={checked}
@@ -631,7 +649,9 @@ function AltCard({
       )}
 
       {/* Apply button */}
-      <ApplyButton url={card.applyUrl} />
+      <div onClick={(e) => e.stopPropagation()}>
+        <ApplyButton url={card.applyUrl} />
+      </div>
     </div>
   )
 }

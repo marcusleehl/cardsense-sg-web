@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback, DragEvent } from 'react'
+import React, { useRef, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Footer from '../components/Footer'
 import { parseExcelFile } from '../utils/excelParser'
@@ -118,17 +118,17 @@ export default function Upload() {
 
   // ── drag and drop ───────────────────────────────────────────────────────
 
-  const handleDragOver = useCallback((e: DragEvent<HTMLDivElement>) => {
+  const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
     setDragOver(true)
   }, [])
 
-  const handleDragLeave = useCallback((e: DragEvent<HTMLDivElement>) => {
+  const handleDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
     setDragOver(false)
   }, [])
 
-  const handleDrop = useCallback((e: DragEvent<HTMLDivElement>) => {
+  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
     setDragOver(false)
     handleFileList(e.dataTransfer.files)
