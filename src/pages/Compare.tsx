@@ -2,8 +2,8 @@ import { useMemo, type ReactNode } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import cardsData from '../data/cards.json'
 import { getActivePromotions } from '../utils/promotions'
-import { EARN_KEYS, EARN_LABELS, CC_TO_EARN } from '../utils/engine'
-import type { Card, EarnKey, UserPreferences } from '../utils/engine'
+import { EARN_KEYS, EARN_LABELS, CC_TO_EARN, recommendFromProfile } from '../utils/engine'
+import type { Card, EarnKey, UserPreferences, RecommendationResult } from '../utils/engine'
 import type { SpendProfile } from './Analysis'
 import Footer from '../components/Footer'
 
@@ -112,7 +112,7 @@ export default function Compare() {
     .map((id) => allCards.find((c) => c.id === id))
     .filter((c): c is Card => !!c)
 
-  // ── avg monthly spend by EarnKey ────────────────────────────────────────────
+  // ── avg monthly spend by EarnKey (for best-category badge) ─────────────────
   const avgMonthly = useMemo<Partial<Record<EarnKey, number>>>(() => {
     const result: Partial<Record<EarnKey, number>> = {}
     if (spendProfile?.avgMonthlyByCategory) {
@@ -126,36 +126,30 @@ export default function Compare() {
 
   const hasSpendData = Object.values(avgMonthly).some((v) => (v ?? 0) > 0)
 
-  // ── projected annual value per card (full spend, same logic as CardDetail) ──
-  const projectedValues = useMemo<(number | null)[]>(() => {
-    return cards.map((card) => {
-      if (!hasSpendData) return null
-      const isMiles = card.rewardType === 'miles' || card.rewardType === 'points'
-      let total = 0
-      for (const key of EARN_KEYS) {
-        if (key === 'others') continue
-        const spend = avgMonthly[key] ?? 0
-        const rate  = card.earnRates[key] ?? 0
-        if (isMiles) {
-          total += Math.round(spend * rate) * 0.02 * 12
-        } else {
-          total += spend * rate * 12
-        }
-      }
-      return total
-    })
-  }, [cards, avgMonthly, hasSpendData])
+  // ── run the same engine as Recommendations to get identical values ───────────
+  // Pass only the selected cards so all of them appear in results (not just top 5
+  // of the full database), while gap analysis still uses prefs.existingCards.
+  const engineResults = useMemo<RecommendationResult[]>(() => {
+    if (!hasSpendData || !prefs || !spendProfile) return []
+    return recommendFromProfile(spendProfile.avgMonthlyByCategory, prefs, cards)
+  }, [cards, spendProfile, prefs, hasSpendData])
+
+  const resultByCardId = useMemo(
+    () => Object.fromEntries(engineResults.map((r) => [r.card.id, r])),
+    [engineResults],
+  )
 
   // ── best overall value column ───────────────────────────────────────────────
   const bestValueIdx = useMemo(() => {
     if (!hasSpendData) return -1
     let best = -1
     let bestVal = -Infinity
-    projectedValues.forEach((v, i) => {
-      if (v !== null && v > bestVal) { bestVal = v; best = i }
+    cards.forEach((card, i) => {
+      const val = resultByCardId[card.id]?.projectedAnnualValueSGD ?? -Infinity
+      if (val > bestVal) { bestVal = val; best = i }
     })
     return best
-  }, [projectedValues, hasSpendData])
+  }, [cards, resultByCardId, hasSpendData])
 
   // ── top spending category ───────────────────────────────────────────────────
   const topSpendKey = useMemo<EarnKey | null>(() => {
@@ -312,25 +306,44 @@ export default function Compare() {
               {/* Projected annual value */}
               <tr style={{ borderTop: '1px solid #F1F5F9' }}>
                 <LabelCell>Projected annual value</LabelCell>
-                {cards.map((card, i) => (
-                  <td
-                    key={card.id}
-                    className="px-4 py-3 text-sm"
-                    style={{
-                      borderLeft: '1px solid #F1F5F9',
-                      backgroundColor: i === bestValueIdx ? '#F0FDF4' : undefined,
-                    }}
-                  >
-                    {projectedValues[i] !== null
-                      ? (
-                        <span className="font-bold" style={{ color: '#1F4E79' }}>
-                          S${fmtSGD(projectedValues[i]!)}
-                        </span>
-                      )
-                      : <span className="text-xs text-gray-400">Upload statement to see</span>
-                    }
-                  </td>
-                ))}
+                {cards.map((card, i) => {
+                  const result = resultByCardId[card.id]
+                  return (
+                    <td
+                      key={card.id}
+                      className="px-4 py-3 text-sm"
+                      style={{
+                        borderLeft: '1px solid #F1F5F9',
+                        backgroundColor: i === bestValueIdx ? '#F0FDF4' : undefined,
+                      }}
+                    >
+                      {result
+                        ? result.isMilesCard
+                          ? (
+                            <div>
+                              <span className="font-bold" style={{ color: '#1D4ED8' }}>
+                                {result.totalAnnualMiles.toLocaleString('en-SG')} miles
+                              </span>
+                              <p className="text-xs text-gray-400 mt-0.5">
+                                ≈ S${fmtSGD(result.totalAnnualMiles * 0.02)} / yr
+                              </p>
+                            </div>
+                          )
+                          : (
+                            <div>
+                              <span className="font-bold" style={{ color: '#16A34A' }}>
+                                S${fmtSGD(result.monthlyCashbackSGD)} / mo
+                              </span>
+                              <p className="text-xs text-gray-400 mt-0.5">
+                                S${fmtSGD(result.monthlyCashbackSGD * 12)} / yr
+                              </p>
+                            </div>
+                          )
+                        : <span className="text-xs text-gray-400">Upload statement to see</span>
+                      }
+                    </td>
+                  )
+                })}
               </tr>
 
               {/* Reward type */}

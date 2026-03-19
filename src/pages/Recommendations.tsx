@@ -349,7 +349,7 @@ export default function Recommendations() {
             Comparing {compareIds.size} card{compareIds.size !== 1 ? 's' : ''}
           </span>
           <button
-            onClick={() => navigate('/compare', { state: { cardIds: [...compareIds] } })}
+            onClick={() => navigate('/compare', { state: { cardIds: [...compareIds], spendProfile, prefs } })}
             className="bg-white text-sm font-semibold px-5 py-2 rounded-xl transition-opacity hover:opacity-90"
             style={{ color: '#1F4E79' }}
           >
