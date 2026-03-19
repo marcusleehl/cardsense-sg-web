@@ -155,7 +155,7 @@ export async function parsePdfFile(file: File): Promise<Transaction[]> {
 
   if (transactions.length === 0) {
     throw new Error(
-      'No transactions found. This PDF may be a scanned image. Please download a digital statement directly from your bank app or internet banking portal.'
+      'This PDF appears to be a scanned image and cannot be read. Please download a digital statement from your bank app or internet banking portal.'
     )
   }
 

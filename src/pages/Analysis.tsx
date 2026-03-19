@@ -148,6 +148,40 @@ export default function Analysis() {
           Continue to Preferences →
         </button>
 
+        {/* ── Data quality warnings ──────────────────────────────────── */}
+        {spendProfile.months < 2 && (
+          <div
+            className="flex gap-2.5 p-4 rounded-xl mb-6 text-sm leading-relaxed"
+            style={{ backgroundColor: '#FEF9C3', color: '#713F12', border: '1px solid #FDE68A' }}
+          >
+            <span className="flex-shrink-0">⚠️</span>
+            <span>
+              For more accurate recommendations upload at least 3 months of spending history.
+              Your current results may not fully reflect your spending patterns.
+            </span>
+          </div>
+        )}
+
+        {totalSpend > 0 && (categoryTotals['OTHERS'] ?? 0) / totalSpend > 0.8 && (
+          <div
+            className="flex gap-2.5 p-4 rounded-xl mb-6 text-sm leading-relaxed"
+            style={{ backgroundColor: '#FEF9C3', color: '#713F12', border: '1px solid #FDE68A' }}
+          >
+            <span className="flex-shrink-0">⚠️</span>
+            <span>
+              Most of your transactions were not automatically categorised.{' '}
+              <button
+                onClick={() => setActiveFilter('OTHERS' as Category)}
+                className="underline font-semibold"
+                style={{ color: '#92400E' }}
+              >
+                Click here to manually categorise them
+              </button>{' '}
+              for a more accurate recommendation.
+            </span>
+          </div>
+        )}
+
         {/* ── Donut chart / mobile list ──────────────────────────────── */}
         {donutData.length > 0 && (
           <>

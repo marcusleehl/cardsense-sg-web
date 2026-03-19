@@ -297,7 +297,9 @@ export default function Recommendations() {
         {/* ── Empty state ───────────────────────────────────────────────────── */}
         {results.length === 0 && (
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-10 text-center">
-            <p className="text-gray-500 mb-4">No cards match your income and preferences.</p>
+            <p className="text-gray-500 mb-4">
+              No cards match your current criteria. Try adjusting your income selection or your minimum spend preference.
+            </p>
             <button
               onClick={() => navigate('/preferences')}
               className="text-sm font-medium underline"

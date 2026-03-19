@@ -77,6 +77,31 @@ export default function Upload() {
 
   async function parseAndAdd(file: File) {
     const id = `${file.name}-${Date.now()}-${Math.random()}`
+    const lower = file.name.toLowerCase()
+
+    // File size check (>20 MB)
+    if (file.size > 20 * 1024 * 1024) {
+      setEntries((prev) => [
+        ...prev,
+        {
+          id, file, status: 'error', transactions: [], txCount: 0,
+          error: 'File is too large. Please check you are uploading a bank statement and not another document type.',
+        },
+      ])
+      return
+    }
+
+    // File type check
+    if (!lower.endsWith('.xlsx') && !lower.endsWith('.csv') && !lower.endsWith('.pdf')) {
+      setEntries((prev) => [
+        ...prev,
+        {
+          id, file, status: 'error', transactions: [], txCount: 0,
+          error: 'Please upload a Money Manager .xlsx export or a bank statement PDF.',
+        },
+      ])
+      return
+    }
 
     // Immediately add entry in 'parsing' state
     setEntries((prev) => [

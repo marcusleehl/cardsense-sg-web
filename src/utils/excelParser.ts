@@ -43,7 +43,7 @@ export async function parseExcelFile(file: File): Promise<Transaction[]> {
 
   if (rows.length === 0) {
     throw new Error(
-      'This does not look like a Money Manager export. Please export via More then Backup/Restore then Export to Excel.'
+      'This does not look like a Money Manager export. Please use More then Backup/Restore then Export to Excel in the app.'
     )
   }
 
@@ -65,7 +65,7 @@ export async function parseExcelFile(file: File): Promise<Transaction[]> {
   const missing = required.filter((k) => !headerMap[k])
   if (missing.length > 0) {
     throw new Error(
-      'This does not look like a Money Manager export. Please export via More then Backup/Restore then Export to Excel.'
+      'This does not look like a Money Manager export. Please use More then Backup/Restore then Export to Excel in the app.'
     )
   }
 
