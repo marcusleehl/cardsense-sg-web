@@ -4,6 +4,7 @@ import Analysis from './pages/Analysis'
 import Preferences from './pages/Preferences'
 import Recommendations from './pages/Recommendations'
 import CardDetail from './pages/CardDetail'
+import Compare from './pages/Compare'
 import Admin from './pages/Admin'
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="/preferences" element={<Preferences />} />
         <Route path="/recommendations" element={<Recommendations />} />
         <Route path="/card/:id" element={<CardDetail />} />
+        <Route path="/compare" element={<Compare />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
