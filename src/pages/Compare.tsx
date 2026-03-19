@@ -74,6 +74,7 @@ function SectionHeader({ label, numCards }: { label: string; numCards: number })
           color: '#64748B',
           minWidth: 160,
           borderRight: '1px solid #CBD5E1',
+          zIndex: 1,
         }}
       >
         {label}
@@ -89,7 +90,7 @@ function LabelCell({ children }: { children: ReactNode }) {
   return (
     <td
       className="sticky left-0 bg-white px-4 py-3 text-sm font-medium text-gray-600 whitespace-nowrap"
-      style={{ minWidth: 160, borderRight: '1px solid #CBD5E1' }}
+      style={{ minWidth: 160, borderRight: '1px solid #CBD5E1', zIndex: 1 }}
     >
       {children}
     </td>
@@ -514,7 +515,7 @@ export default function Compare() {
               <tr style={{ borderTop: '1px solid #F1F5F9' }}>
                 <td
                   className="sticky left-0 bg-white px-4 py-4"
-                  style={{ borderRight: '1px solid #CBD5E1' }}
+                  style={{ borderRight: '1px solid #CBD5E1', zIndex: 1 }}
                 />
                 {cards.map((card) => {
                   const promos = getActivePromotions(card.id)

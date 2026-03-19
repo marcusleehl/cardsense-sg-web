@@ -215,7 +215,7 @@ export default function Preferences() {
                   <div key={card.id}>
                     {/* Card row */}
                     <label
-                      className="flex items-center gap-3 px-4 py-3.5 cursor-pointer hover:bg-gray-50 transition-colors"
+                      className="flex items-center gap-3 px-4 py-3.5 cursor-pointer hover:bg-gray-50 transition-colors min-h-[44px]"
                       style={idx > 0 ? { borderTop: '1px solid #F3F4F6' } : undefined}
                     >
                       <input
@@ -248,7 +248,7 @@ export default function Preferences() {
                         <select
                           value={cardPref?.usageCategory ?? ''}
                           onChange={(e) => setCardCategory(card.id, e.target.value)}
-                          className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2 bg-white text-gray-700 focus:outline-none"
+                          className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 bg-white text-gray-700 focus:outline-none min-h-[44px]"
                           style={{ boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.04)' }}
                         >
                           <option value="">Select a category…</option>
@@ -281,7 +281,7 @@ export default function Preferences() {
                 <button
                   key={perk}
                   onClick={() => togglePerk(perk)}
-                  className="px-4 py-2 rounded-full text-sm font-medium transition-all border-2"
+                  className="px-4 py-2.5 rounded-full text-sm font-medium transition-all border-2 min-h-[44px]"
                   style={{
                     borderColor: selected ? '#1F4E79' : '#E5E7EB',
                     backgroundColor: selected ? '#1F4E79' : '#FFFFFF',

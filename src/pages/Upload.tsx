@@ -196,14 +196,14 @@ export default function Upload() {
             <div className="flex flex-col sm:flex-row gap-3 justify-center mb-4">
               <button
                 onClick={() => xlsxInputRef.current?.click()}
-                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border-2 text-sm font-medium transition-colors hover:bg-blue-50"
+                className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 text-sm font-medium transition-colors hover:bg-blue-50 w-full sm:w-auto min-h-[44px]"
                 style={{ borderColor: '#1F4E79', color: '#1F4E79' }}
               >
                 <span>📊</span> Import Money Manager Excel (.xlsx)
               </button>
               <button
                 onClick={() => pdfInputRef.current?.click()}
-                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border-2 text-sm font-medium transition-colors hover:bg-blue-50"
+                className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 text-sm font-medium transition-colors hover:bg-blue-50 w-full sm:w-auto min-h-[44px]"
                 style={{ borderColor: '#1F4E79', color: '#1F4E79' }}
               >
                 <span>📄</span> Import Bank Statement PDF (.pdf)
@@ -238,10 +238,10 @@ export default function Upload() {
               {entries.map((entry) => (
                 <li
                   key={entry.id}
-                  className="flex items-center justify-between bg-white rounded-lg px-4 py-3 border border-gray-100 shadow-sm"
+                  className="flex items-start justify-between bg-white rounded-lg px-4 py-3 border border-gray-100 shadow-sm gap-2"
                 >
-                  <div className="flex items-center gap-3 min-w-0 flex-1">
-                    <span className="text-lg flex-shrink-0">
+                  <div className="flex items-start gap-3 min-w-0 flex-1">
+                    <span className="text-lg flex-shrink-0 mt-0.5">
                       {entry.file.name.endsWith('.pdf') ? '📄' : '📊'}
                     </span>
                     <div className="min-w-0 flex-1">
@@ -249,33 +249,33 @@ export default function Upload() {
                         {entry.file.name}
                       </p>
                       <p className="text-xs text-gray-400">{formatSize(entry.file.size)}</p>
-                    </div>
 
-                    {/* Status badge */}
-                    {entry.status === 'parsing' && (
-                      <span className="flex items-center gap-1.5 text-xs text-gray-400 flex-shrink-0">
-                        <Spinner />
-                        Reading your transactions
-                      </span>
-                    )}
-                    {entry.status === 'success' && (
-                      <span className="flex items-center gap-1 text-xs font-medium text-green-700 bg-green-50 border border-green-200 px-2 py-0.5 rounded-full flex-shrink-0">
-                        ✓ {entry.txCount} transaction{entry.txCount !== 1 ? 's' : ''}
-                      </span>
-                    )}
-                    {entry.status === 'error' && (
-                      <span
-                        className="flex items-center gap-1 text-xs font-medium text-red-700 bg-red-50 border border-red-200 px-2 py-0.5 rounded-full flex-shrink-0 max-w-[200px] truncate"
-                        title={entry.error}
-                      >
-                        ✕ {entry.error}
-                      </span>
-                    )}
+                      {/* Status badge — below filename on all screen sizes */}
+                      {entry.status === 'parsing' && (
+                        <span className="inline-flex items-center gap-1.5 text-xs text-gray-400 mt-1.5">
+                          <Spinner />
+                          Reading your transactions
+                        </span>
+                      )}
+                      {entry.status === 'success' && (
+                        <span className="inline-flex items-center gap-1 text-xs font-medium text-green-700 bg-green-50 border border-green-200 px-2 py-0.5 rounded-full mt-1.5">
+                          ✓ {entry.txCount} transaction{entry.txCount !== 1 ? 's' : ''}
+                        </span>
+                      )}
+                      {entry.status === 'error' && (
+                        <span
+                          className="inline-flex items-center gap-1 text-xs font-medium text-red-700 bg-red-50 border border-red-200 px-2 py-0.5 rounded-full mt-1.5 max-w-full truncate"
+                          title={entry.error}
+                        >
+                          ✕ {entry.error}
+                        </span>
+                      )}
+                    </div>
                   </div>
 
                   <button
                     onClick={() => removeEntry(entry.id)}
-                    className="ml-3 text-gray-300 hover:text-red-400 transition-colors text-xl leading-none flex-shrink-0"
+                    className="p-2 -mr-2 -mt-1 text-gray-300 hover:text-red-400 transition-colors text-xl leading-none flex-shrink-0 min-h-[44px] min-w-[44px] flex items-center justify-center"
                     aria-label="Remove file"
                   >
                     ×

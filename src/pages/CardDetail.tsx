@@ -336,8 +336,8 @@ export default function CardDetail() {
               <span>{coveredNote}</span>
             </div>
           )}
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+          <div className="overflow-x-auto -mx-1">
+            <table className="w-full text-sm" style={{ minWidth: '480px' }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid #E2E8F0' }}>
                   <th className="text-left pb-3 font-semibold text-gray-400 uppercase tracking-wide text-xs">Category</th>

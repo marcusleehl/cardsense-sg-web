@@ -197,7 +197,7 @@ export default function Recommendations() {
         </h1>
 
         {/* ── Sort control ──────────────────────────────────────────────────── */}
-        <div className="flex gap-1 p-1 bg-gray-200 rounded-xl mb-6 w-fit">
+        <div className="flex gap-1 p-1 bg-gray-200 rounded-xl mb-6 w-full sm:w-fit">
           {(
             [
               { id: 'best',     label: 'Best Value' },
@@ -208,7 +208,7 @@ export default function Recommendations() {
             <button
               key={id}
               onClick={() => setSortMode(id)}
-              className="px-4 py-1.5 rounded-lg text-sm font-medium transition-all"
+              className="flex-1 sm:flex-none px-4 py-2 sm:py-1.5 rounded-lg text-sm font-medium transition-all min-h-[44px] sm:min-h-0"
               style={
                 sortMode === id
                   ? { backgroundColor: '#1F4E79', color: '#FFFFFF' }

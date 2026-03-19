@@ -148,53 +148,78 @@ export default function Analysis() {
           Continue to Preferences →
         </button>
 
-        {/* ── Donut chart ───────────────────────────────────────────── */}
+        {/* ── Donut chart / mobile list ──────────────────────────────── */}
         {donutData.length > 0 && (
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-8">
-            <h2 className="text-base font-semibold text-gray-700 mb-4">Spend by Category</h2>
-            <div className="flex flex-col sm:flex-row items-center gap-6">
-              <div style={{ width: 220, height: 220, flexShrink: 0 }}>
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={donutData}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={65}
-                      outerRadius={100}
-                      dataKey="value"
-                      strokeWidth={2}
-                    >
-                      {donutData.map((entry) => (
-                        <Cell
-                          key={entry.name}
-                          fill={CATEGORY_COLORS[entry.name] ?? '#888780'}
-                        />
-                      ))}
-                    </Pie>
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-
-              {/* HTML legend */}
-              <div className="flex flex-wrap gap-x-6 gap-y-2">
+          <>
+            {/* Mobile: sorted list view (hidden on sm+) */}
+            <div className="sm:hidden bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-8">
+              <h2 className="text-base font-semibold text-gray-700 mb-4">Spend by Category</h2>
+              <div className="space-y-3">
                 {donutData.map((entry) => (
-                  <div key={entry.name} className="flex items-center gap-2 text-sm">
+                  <div key={entry.name} className="flex items-center gap-3">
                     <span
-                      className="inline-block w-3 h-3 rounded-sm flex-shrink-0"
+                      className="w-3 h-3 rounded-sm flex-shrink-0"
                       style={{ backgroundColor: CATEGORY_COLORS[entry.name] ?? '#888780' }}
                     />
-                    <span className="text-gray-700">{entry.name}</span>
-                    <span className="text-gray-400">
-                      {totalSpend > 0
-                        ? `${((entry.value / totalSpend) * 100).toFixed(1)}%`
-                        : '0%'}
+                    <span className="text-sm text-gray-700 flex-1 min-w-0 truncate">{entry.name}</span>
+                    <span className="text-sm font-medium text-gray-800 flex-shrink-0">
+                      S${fmtSGD(entry.value)}
+                    </span>
+                    <span className="text-xs text-gray-400 w-10 text-right flex-shrink-0">
+                      {totalSpend > 0 ? `${((entry.value / totalSpend) * 100).toFixed(1)}%` : '0%'}
                     </span>
                   </div>
                 ))}
               </div>
             </div>
-          </div>
+
+            {/* Desktop: donut chart (hidden on mobile) */}
+            <div className="hidden sm:block bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-8">
+              <h2 className="text-base font-semibold text-gray-700 mb-4">Spend by Category</h2>
+              <div className="flex flex-col sm:flex-row items-center gap-6">
+                <div style={{ width: 220, height: 220, flexShrink: 0 }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={donutData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={65}
+                        outerRadius={100}
+                        dataKey="value"
+                        strokeWidth={2}
+                      >
+                        {donutData.map((entry) => (
+                          <Cell
+                            key={entry.name}
+                            fill={CATEGORY_COLORS[entry.name] ?? '#888780'}
+                          />
+                        ))}
+                      </Pie>
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+
+                {/* HTML legend */}
+                <div className="flex flex-wrap gap-x-6 gap-y-2">
+                  {donutData.map((entry) => (
+                    <div key={entry.name} className="flex items-center gap-2 text-sm">
+                      <span
+                        className="inline-block w-3 h-3 rounded-sm flex-shrink-0"
+                        style={{ backgroundColor: CATEGORY_COLORS[entry.name] ?? '#888780' }}
+                      />
+                      <span className="text-gray-700">{entry.name}</span>
+                      <span className="text-gray-400">
+                        {totalSpend > 0
+                          ? `${((entry.value / totalSpend) * 100).toFixed(1)}%`
+                          : '0%'}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </>
         )}
 
         {/* ── Category bars ─────────────────────────────────────────── */}
@@ -207,9 +232,9 @@ export default function Analysis() {
                 const count = transactions.filter((t) => t.ccCategory === cat).length
                 const pct = maxCategorySpend > 0 ? (spend / maxCategorySpend) * 100 : 0
                 return (
-                  <div key={cat} className="flex items-center gap-3">
-                    <span className="w-40 text-sm text-gray-600 flex-shrink-0 truncate">{cat}</span>
-                    <div className="flex-1 bg-gray-100 rounded-full h-2.5 overflow-hidden">
+                  <div key={cat} className="flex items-center gap-2 sm:gap-3">
+                    <span className="w-24 sm:w-40 text-sm text-gray-600 flex-shrink-0 truncate">{cat}</span>
+                    <div className="flex-1 bg-gray-100 rounded-full h-2.5 overflow-hidden min-w-0">
                       <div
                         className="h-full rounded-full transition-all"
                         style={{
@@ -218,10 +243,10 @@ export default function Analysis() {
                         }}
                       />
                     </div>
-                    <span className="w-24 text-right text-sm font-medium text-gray-800 flex-shrink-0">
+                    <span className="w-20 sm:w-24 text-right text-sm font-medium text-gray-800 flex-shrink-0">
                       S${fmtSGD(spend)}
                     </span>
-                    <span className="w-14 text-right text-xs text-gray-400 flex-shrink-0">
+                    <span className="hidden sm:inline-block w-14 text-right text-xs text-gray-400 flex-shrink-0">
                       {count} txn{count !== 1 ? 's' : ''}
                     </span>
                   </div>
@@ -265,31 +290,36 @@ export default function Analysis() {
             {filtered.map((tx) => (
               <div key={tx.id}>
                 <button
-                  className="w-full text-left px-2 py-3 hover:bg-gray-50 rounded-lg transition-colors flex items-start justify-between gap-3"
+                  className="w-full text-left px-2 py-3 hover:bg-gray-50 rounded-lg transition-colors"
                   onClick={() => setOpenTxId(openTxId === tx.id ? null : tx.id)}
                 >
-                  <div className="min-w-0">
-                    <p className="text-sm font-semibold text-gray-800 truncate">
+                  {/* Line 1: merchant name (+ amount on sm+) */}
+                  <div className="flex items-start justify-between gap-3">
+                    <p className="text-sm font-semibold text-gray-800 truncate min-w-0 flex-1">
                       {tx.merchant || '—'}
                     </p>
-                    <div className="flex items-center gap-2 mt-1 flex-wrap">
-                      <span className="text-xs text-gray-400">{tx.date}</span>
-                      <span
-                        className="text-xs px-2 py-0.5 rounded-full text-white font-medium"
-                        style={{
-                          backgroundColor: CATEGORY_COLORS[tx.ccCategory] ?? '#888780',
-                        }}
-                      >
-                        {tx.ccCategory}
-                      </span>
-                      {tx.source && (
-                        <span className="text-xs text-gray-300">{tx.source}</span>
-                      )}
-                    </div>
+                    <span className="hidden sm:inline text-sm font-semibold text-gray-800 flex-shrink-0">
+                      S${fmtSGD(tx.amount)}
+                    </span>
                   </div>
-                  <span className="text-sm font-semibold text-gray-800 flex-shrink-0 mt-0.5">
-                    S${fmtSGD(tx.amount)}
-                  </span>
+                  {/* Line 2: date + category + source (+ amount on mobile) */}
+                  <div className="flex items-center gap-2 mt-1 flex-wrap">
+                    <span className="text-xs text-gray-400">{tx.date}</span>
+                    <span
+                      className="text-xs px-2 py-0.5 rounded-full text-white font-medium"
+                      style={{
+                        backgroundColor: CATEGORY_COLORS[tx.ccCategory] ?? '#888780',
+                      }}
+                    >
+                      {tx.ccCategory}
+                    </span>
+                    {tx.source && (
+                      <span className="text-xs text-gray-300">{tx.source}</span>
+                    )}
+                    <span className="sm:hidden text-sm font-semibold text-gray-800 ml-auto flex-shrink-0">
+                      S${fmtSGD(tx.amount)}
+                    </span>
+                  </div>
                 </button>
 
                 {/* Inline category picker */}
