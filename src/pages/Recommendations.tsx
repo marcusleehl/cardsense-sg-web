@@ -2,7 +2,8 @@ import { useState, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Footer from '../components/Footer'
 import cardsData from '../data/cards.json'
-import promotionsData from '../data/promotions.json'
+import { getActivePromotions } from '../utils/promotions'
+import type { Promotion } from '../utils/promotions'
 import {
   recommendFromProfile,
   computeCoveredRates,
@@ -11,16 +12,6 @@ import {
 } from '../utils/engine'
 import type { Card, RecommendationResult, UserPreferences } from '../utils/engine'
 import type { SpendProfile } from './Analysis'
-
-// ── promotion type ────────────────────────────────────────────────────────────
-
-interface Promotion {
-  cardId: string
-  badge: string
-  description: string
-}
-
-const promotions = promotionsData as Promotion[]
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
@@ -179,8 +170,9 @@ export default function Recommendations() {
     })
   }
 
-  function promoFor(cardId: string) {
-    return promotions.find((p) => p.cardId === cardId)
+  function promoFor(cardId: string): Promotion | undefined {
+    const promos = getActivePromotions(cardId)
+    return promos.length > 0 ? promos[0] : undefined
   }
 
   // ── render ─────────────────────────────────────────────────────────────────
@@ -381,7 +373,7 @@ function HeroCard({
   onNavigate,
 }: {
   result: RecommendationResult
-  promo: { badge: string; description: string } | undefined
+  promo: Promotion | undefined
   checked: boolean
   onCompare: () => void
   onNavigate: () => void
@@ -403,12 +395,15 @@ function HeroCard({
             <div className="flex items-center gap-2 flex-wrap mb-0.5">
               <RewardBadge type={card.rewardType} large />
               {promo && (
-                <span
-                  className="text-xs font-semibold px-2.5 py-0.5 rounded-full"
-                  style={{ backgroundColor: '#FFF7ED', color: '#C2410C', border: '1px solid #FED7AA' }}
-                >
-                  🎁 {promo.badge}
-                </span>
+                <div className="flex flex-col gap-0.5">
+                  <span
+                    className="text-xs font-semibold px-2.5 py-0.5 rounded-full"
+                    style={{ backgroundColor: '#FFF7ED', color: '#C2410C', border: '1px solid #FED7AA' }}
+                  >
+                    🎁 {promo.bonusDescription}
+                  </span>
+                  <span className="text-xs text-gray-400 pl-1">{promo.sourceLabel}</span>
+                </div>
               )}
             </div>
             <h2 className="text-xl font-bold text-gray-900 mt-1 leading-tight">{card.name}</h2>
@@ -546,7 +541,7 @@ function HeroCard({
 
         {/* Apply button */}
         <div onClick={(e) => e.stopPropagation()}>
-          <ApplyButton url={card.applyUrl} large />
+          <ApplyButton url={promo ? promo.applyUrl : card.applyUrl} large />
         </div>
       </div>
     </div>
@@ -563,7 +558,7 @@ function AltCard({
   onNavigate,
 }: {
   result: RecommendationResult
-  promo: { badge: string; description: string } | undefined
+  promo: Promotion | undefined
   checked: boolean
   onCompare: () => void
   onNavigate: () => void
@@ -584,12 +579,17 @@ function AltCard({
                 className="text-xs font-semibold px-2 py-0.5 rounded-full"
                 style={{ backgroundColor: '#FFF7ED', color: '#C2410C', border: '1px solid #FED7AA' }}
               >
-                🎁 {promo.badge}
+                🎁 {promo.bonusDescription}
               </span>
             )}
           </div>
           <p className="text-base font-bold text-gray-900 leading-tight">{card.name}</p>
-          <p className="text-xs text-gray-400">{card.bank}</p>
+          <p className="text-xs text-gray-400">
+            {card.bank}
+            {promo && (
+              <span className="ml-1.5 text-orange-600 font-medium">{promo.sourceLabel}</span>
+            )}
+          </p>
         </div>
         <label
           className="flex items-center gap-1.5 cursor-pointer flex-shrink-0"
@@ -650,7 +650,7 @@ function AltCard({
 
       {/* Apply button */}
       <div onClick={(e) => e.stopPropagation()}>
-        <ApplyButton url={card.applyUrl} />
+        <ApplyButton url={promo ? promo.applyUrl : card.applyUrl} />
       </div>
     </div>
   )

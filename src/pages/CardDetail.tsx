@@ -1,10 +1,10 @@
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import cardsData from '../data/cards.json'
-import { getActivePromotions } from '../data/promotions'
 import { EARN_KEYS, EARN_LABELS, CC_TO_EARN, DISPLAY_TO_EARN } from '../utils/engine'
 import type { Card, EarnKey, UserPreferences } from '../utils/engine'
 import type { SpendProfile } from './Analysis'
 import Footer from '../components/Footer'
+import PromotionAdvisor from '../components/PromotionAdvisor'
 
 // ── constants (mirrors engine.ts, not exported there) ─────────────────────────
 
@@ -45,10 +45,6 @@ function loadPrefs(): UserPreferences | null {
 
 function fmtSGD(n: number): string {
   return n.toLocaleString('en-SG', { minimumFractionDigits: 0, maximumFractionDigits: 0 })
-}
-
-function fmtDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('en-SG', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
 // ── small UI primitives ───────────────────────────────────────────────────────
@@ -261,11 +257,8 @@ export default function CardDetail() {
     })
   }
 
-  // ── promotions ────────────────────────────────────────────────────────────
-  const activePromos = getActivePromotions(card.id)
-  const promoLastVerified = activePromos.length > 0
-    ? activePromos.sort((a, b) => b.lastVerified.localeCompare(a.lastVerified))[0].lastVerified
-    : (card as Card & { lastVerified?: string }).lastVerified ?? null
+  // ── total monthly spend ───────────────────────────────────────────────────
+  const totalMonthlySpend = Object.values(avgMonthly).reduce((s, v) => s + (v ?? 0), 0)
 
   // ── render ────────────────────────────────────────────────────────────────
   return (
@@ -509,48 +502,13 @@ export default function CardDetail() {
 
         {/* ── PROMOTIONS ────────────────────────────────────────────────────── */}
         <Section title="Promotions">
-          {activePromos.length === 0 ? (
-            <div>
-              <p className="text-sm text-gray-400">
-                No active promotions at this time. Check the bank website for the latest offers.
-              </p>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {activePromos.map((promo, i) => (
-                <div
-                  key={i}
-                  className="rounded-xl p-4"
-                  style={{ backgroundColor: '#FFFBEB', border: '1px solid #FDE68A' }}
-                >
-                  <div className="flex items-start justify-between gap-2 mb-1">
-                    <p className="text-sm font-semibold text-gray-800">{promo.title}</p>
-                    <span
-                      className="text-sm font-bold flex-shrink-0"
-                      style={{ color: '#EA580C' }}
-                    >
-                      {promo.value}
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed">{promo.description}</p>
-                  {promo.conditions && (
-                    <p className="text-xs text-gray-400 mt-1.5 leading-relaxed">{promo.conditions}</p>
-                  )}
-                  <p className="text-xs text-gray-400 mt-2">
-                    {promo.endDate
-                      ? `Valid until ${fmtDate(promo.endDate)}`
-                      : 'Ongoing'
-                    }
-                  </p>
-                </div>
-              ))}
-            </div>
-          )}
-          {promoLastVerified && (
-            <p className="text-xs text-gray-400 mt-4">
-              Promotions last verified: {fmtDate(promoLastVerified)}
-            </p>
-          )}
+          <PromotionAdvisor
+            cardId={card.id}
+            cardName={card.name}
+            bankName={card.bank}
+            monthlySpend={totalMonthlySpend}
+            userPrefs={prefs}
+          />
         </Section>
 
         {/* ── AFFILIATE DISCLOSURE ──────────────────────────────────────────── */}

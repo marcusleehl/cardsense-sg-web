@@ -155,7 +155,7 @@ If no promotions are found, return: []`
 export default function Admin() {
   const [cardsState, setCardsState]         = useState<CardRecord[]>(rawCards as unknown as CardRecord[])
   const [cardsModified, setCardsModified]   = useState(false)
-  const [promoState, setPromoState]         = useState<PromotionRecord[]>(rawPromotions as PromotionRecord[])
+  const [promoState, setPromoState]         = useState<PromotionRecord[]>((rawPromotions as unknown as { promotions: PromotionRecord[] }).promotions ?? [])
   const [promoModified, setPromoModified]   = useState(false)
 
   const [verifying, setVerifying]               = useState(false)
