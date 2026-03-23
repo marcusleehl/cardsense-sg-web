@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local knowledge base PDFs — not for version control
+Credit Card Knowledge Base - 20032026/
+
+# Local scripts output — working files only
+scripts/progress.json
+scripts/cards-extracted.json
