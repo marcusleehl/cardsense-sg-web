@@ -24,7 +24,6 @@ interface Props {
   cardId: string
   cardName: string
   bankName: string
-  monthlySpend: number
   userPrefs: UserPreferences | null
 }
 
@@ -104,7 +103,6 @@ export default function PromotionAdvisor({
   cardId,
   cardName,
   bankName,
-  monthlySpend,
   userPrefs: _userPrefs,
 }: Props) {
   const activePromos = getActivePromotions(cardId)

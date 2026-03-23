@@ -258,8 +258,6 @@ export default function CardDetail() {
   }
 
   // ── total monthly spend ───────────────────────────────────────────────────
-  const totalMonthlySpend = Object.values(avgMonthly).reduce((s, v) => s + (v ?? 0), 0)
-
   // ── render ────────────────────────────────────────────────────────────────
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
@@ -506,7 +504,6 @@ export default function CardDetail() {
             cardId={card.id}
             cardName={card.name}
             bankName={card.bank}
-            monthlySpend={totalMonthlySpend}
             userPrefs={prefs}
           />
         </Section>
