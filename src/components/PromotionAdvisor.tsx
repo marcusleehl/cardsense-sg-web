@@ -154,7 +154,6 @@ User context:
 New to bank: ${newToBankLabel}
 Can meet minimum spend: ${meetSpendLabel}
 Preferred bonus: ${bonusPref}
-Monthly spend: approximately SGD ${monthlySpend.toLocaleString('en-SG')}
 
 Recommend the single best promotion for this user. Respond in this exact JSON format with no other text:
 {

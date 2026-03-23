@@ -4,6 +4,7 @@ import Footer from '../components/Footer'
 import { parseExcelFile } from '../utils/excelParser'
 import { parsePdfFile } from '../utils/pdfParser'
 import { categorise } from '../utils/categoriser'
+import { SAMPLE_TRANSACTIONS } from '../utils/sampleData'
 import type { Transaction } from '../utils/excelParser'
 import type { SpendProfile } from './Analysis'
 
@@ -79,7 +80,6 @@ export default function Upload() {
     const id = `${file.name}-${Date.now()}-${Math.random()}`
     const lower = file.name.toLowerCase()
 
-    // File size check (>20 MB)
     if (file.size > 20 * 1024 * 1024) {
       setEntries((prev) => [
         ...prev,
@@ -91,7 +91,6 @@ export default function Upload() {
       return
     }
 
-    // File type check
     if (!lower.endsWith('.xlsx') && !lower.endsWith('.csv') && !lower.endsWith('.pdf')) {
       setEntries((prev) => [
         ...prev,
@@ -103,7 +102,6 @@ export default function Upload() {
       return
     }
 
-    // Immediately add entry in 'parsing' state
     setEntries((prev) => [
       ...prev,
       { id, file, status: 'parsing', transactions: [], txCount: 0, error: '' },
@@ -170,7 +168,6 @@ export default function Upload() {
       .flatMap((e) => e.transactions)
       .map((t) => ({ ...t, ccCategory: categorise(t) }))
 
-    // ── DEBUG: rawCategory audit ──────────────────────────────────────────────
     const rawCatCounts: Record<string, number> = {}
     for (const t of allTransactions) {
       const key = t.rawCategory || '(empty)'
@@ -179,64 +176,209 @@ export default function Upload() {
     const sorted = Object.entries(rawCatCounts).sort((a, b) => b[1] - a[1])
     console.log(`[rawCategory audit] ${allTransactions.length} transactions, ${sorted.length} unique rawCategory values:`)
     sorted.forEach(([cat, count]) => console.log(`  ${String(count).padStart(4)}x  "${cat}"`))
-    // ── END DEBUG ─────────────────────────────────────────────────────────────
 
     const spendProfile = buildSpendProfile(allTransactions)
     navigate('/analysis', { state: { transactions: allTransactions, spendProfile } })
   }
 
+  function handleSampleData() {
+    // ccCategory is already set on every sample transaction — skip categorise()
+    const spendProfile = buildSpendProfile(SAMPLE_TRANSACTIONS)
+    navigate('/analysis', { state: { transactions: SAMPLE_TRANSACTIONS, spendProfile, isSampleData: true } })
+  }
+
   // ── render ───────────────────────────────────────────────────────────────
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <main className="flex-1 flex flex-col items-center justify-center px-4 py-12">
-        <div className="w-full max-w-xl">
-          {/* Heading */}
-          <h1 className="text-4xl font-bold text-center mb-2" style={{ color: '#1F4E79' }}>
-            CardSense SG
-          </h1>
-          <p className="text-center text-gray-500 mb-10 text-lg">
-            Find your perfect Singapore credit card
-          </p>
+    <div className="min-h-screen flex flex-col section-bg">
+      <main className="flex-1 flex flex-col items-center px-4 pt-12 pb-16">
+        <div className="w-full max-w-2xl">
 
-          {/* Upload area */}
+          {/* ── Hero ──────────────────────────────────────────────────────── */}
+          <div className="text-center mb-12">
+            <h1
+              className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-3"
+              style={{ color: '#1F4E79' }}
+            >
+              CardSense SG
+            </h1>
+            <p className="text-xl font-medium text-gray-800 mb-2">
+              Find the credit card that best suits your needs
+            </p>
+            <p className="text-base" style={{ color: '#6B7280' }}>
+              Based on how you actually spend — not generic profiles
+            </p>
+          </div>
+
+          {/* ── How it works ─────────────────────────────────────────────── */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+            {[
+              {
+                icon: (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 16V8M12 8L9 11M12 8L15 11" stroke="#1F4E79" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M20 16.5V17C20 18.6569 18.6569 20 17 20H7C5.34315 20 4 18.6569 4 17V16.5" stroke="#1F4E79" strokeWidth="1.75" strokeLinecap="round"/>
+                    <rect x="3" y="4" width="18" height="13" rx="2" stroke="#1F4E79" strokeWidth="1.75"/>
+                  </svg>
+                ),
+                step: '1',
+                title: 'Upload your spending data',
+                sub: 'Bank statement PDF or Money Manager export',
+              },
+              {
+                icon: (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="3" y="3" width="18" height="18" rx="3" stroke="#1F4E79" strokeWidth="1.75"/>
+                    <path d="M7 14L10 10L13 13L16 9" stroke="#1F4E79" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                ),
+                step: '2',
+                title: 'We analyse your spending',
+                sub: 'Automatic categorisation across 11 categories',
+              },
+              {
+                icon: (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="6" width="20" height="14" rx="2.5" stroke="#1F4E79" strokeWidth="1.75"/>
+                    <path d="M2 10H22" stroke="#1F4E79" strokeWidth="1.75"/>
+                    <circle cx="6" cy="15" r="1.25" fill="#1F4E79"/>
+                  </svg>
+                ),
+                step: '3',
+                title: 'Get matched to your best card',
+                sub: 'Personalised to your actual spending pattern',
+              },
+            ].map(({ icon, step, title, sub }) => (
+              <div key={step} className="card-surface p-5 flex flex-col items-start gap-3">
+                <div
+                  className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
+                  style={{ backgroundColor: '#EFF6FF' }}
+                >
+                  {icon}
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wide mb-0.5" style={{ color: '#6B7280' }}>
+                    Step {step}
+                  </p>
+                  <p className="text-sm font-semibold text-gray-900 leading-snug">{title}</p>
+                  <p className="text-xs mt-1 leading-relaxed" style={{ color: '#6B7280' }}>{sub}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* ── Privacy badge ─────────────────────────────────────────────── */}
+          <div
+            className="flex items-start gap-3 rounded-xl px-4 py-3.5 mb-8 text-sm"
+            style={{
+              backgroundColor: '#F0FDF4',
+              border: '1px solid #BBF7D0',
+              color: '#15803D',
+            }}
+          >
+            <svg
+              className="flex-shrink-0 mt-0.5"
+              width="18"
+              height="18"
+              viewBox="0 0 18 18"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9 1.5L3 4V9C3 12.315 5.535 15.405 9 16.5C12.465 15.405 15 12.315 15 9V4L9 1.5Z"
+                stroke="#16A34A"
+                strokeWidth="1.5"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M6.5 9L8 10.5L11.5 7"
+                stroke="#16A34A"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span>
+              <strong>Your files never leave your browser.</strong> No data is uploaded to any server. Processing happens entirely on your device.
+            </span>
+          </div>
+
+          {/* ── Data handling notice ─────────────────────────────────────── */}
+          <div
+            className="rounded-xl px-4 py-4 mb-8 text-sm leading-relaxed"
+            style={{ backgroundColor: '#F8FAFC', border: '1px solid #E2E8F0' }}
+          >
+            <p className="font-semibold text-gray-800 mb-1">How we handle your data</p>
+            <p style={{ color: '#6B7280' }}>
+              Your spending data is processed entirely in your browser. Raw transactions are held in
+              memory only for your current session and are permanently deleted when you close or
+              refresh this tab. We never see, store or transmit your financial data.
+            </p>
+          </div>
+
+          {/* ── Upload area ───────────────────────────────────────────────── */}
           <div
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
-            className="rounded-2xl p-8 bg-white text-center transition-colors"
+            className="card-surface p-8 text-center mb-4 transition-colors"
             style={{
               border: dragOver
                 ? '2px dashed #1F4E79'
                 : '2px dashed #BFDBFE',
               backgroundColor: dragOver ? '#EFF6FF' : '#FFFFFF',
+              borderRadius: 'var(--radius-card)',
             }}
           >
-            <p className="text-gray-500 mb-6 text-sm">
-              {dragOver
-                ? 'Drop to import…'
-                : 'Upload your spending data to get started'}
+            {/* Upload icon */}
+            <div className="flex justify-center mb-4">
+              <div
+                className="w-14 h-14 rounded-2xl flex items-center justify-center"
+                style={{ backgroundColor: '#EFF6FF' }}
+              >
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M14 18V10M14 10L10.5 13.5M14 10L17.5 13.5" stroke="#1F4E79" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M4 20V22C4 23.1046 4.89543 24 6 24H22C23.1046 24 24 23.1046 24 22V20" stroke="#1F4E79" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              </div>
+            </div>
+
+            <p className="text-sm font-medium text-gray-700 mb-1">
+              {dragOver ? 'Drop to import…' : 'Drag and drop your file here'}
+            </p>
+            <p className="text-xs mb-6" style={{ color: '#6B7280' }}>
+              Supports PDF bank statements and Money Manager .xlsx exports
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center mb-4">
               <button
-                onClick={() => xlsxInputRef.current?.click()}
-                className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 text-sm font-medium transition-colors hover:bg-blue-50 w-full sm:w-auto min-h-[44px]"
-                style={{ borderColor: '#1F4E79', color: '#1F4E79' }}
+                onClick={() => pdfInputRef.current?.click()}
+                className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold text-white transition-opacity hover:opacity-90 min-h-[44px]"
+                style={{ backgroundColor: '#1F4E79' }}
               >
-                <span>📊</span> Import Money Manager Excel (.xlsx)
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3 2H10L13 5V14H3V2Z" stroke="white" strokeWidth="1.25" strokeLinejoin="round"/>
+                  <path d="M10 2V5H13" stroke="white" strokeWidth="1.25" strokeLinejoin="round"/>
+                </svg>
+                Upload Bank Statement PDF
               </button>
               <button
-                onClick={() => pdfInputRef.current?.click()}
-                className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 text-sm font-medium transition-colors hover:bg-blue-50 w-full sm:w-auto min-h-[44px]"
+                onClick={() => xlsxInputRef.current?.click()}
+                className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl border-2 text-sm font-semibold transition-colors hover:bg-blue-50 min-h-[44px]"
                 style={{ borderColor: '#1F4E79', color: '#1F4E79' }}
               >
-                <span>📄</span> Import Bank Statement PDF (.pdf)
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="1" y="1" width="14" height="14" rx="2" stroke="#1F4E79" strokeWidth="1.25"/>
+                  <path d="M1 5H15" stroke="#1F4E79" strokeWidth="1.25"/>
+                  <path d="M1 9H15" stroke="#1F4E79" strokeWidth="1.25"/>
+                  <path d="M6 5V15" stroke="#1F4E79" strokeWidth="1.25"/>
+                </svg>
+                Upload Money Manager Export (.xlsx)
               </button>
             </div>
 
-            <p className="text-xs text-gray-400">
-              Or drag and drop files here · You can import multiple files
+            <p className="text-xs" style={{ color: '#9CA3AF' }}>
+              Also accepts credit card statements and personal Excel spending trackers
             </p>
 
             <input
@@ -257,42 +399,74 @@ export default function Upload() {
             />
           </div>
 
-          {/* File list */}
+          {/* Sample data link */}
+          <div className="text-center mb-2">
+            <button
+              className="text-sm font-medium underline underline-offset-2 transition-opacity hover:opacity-70"
+              style={{ color: '#1F4E79' }}
+              onClick={handleSampleData}
+            >
+              Or try with sample data →
+            </button>
+          </div>
+
+          {/* ── File list ─────────────────────────────────────────────────── */}
           {entries.length > 0 && (
-            <ul className="mt-4 space-y-2">
+            <ul className="mt-5 space-y-2">
               {entries.map((entry) => (
                 <li
                   key={entry.id}
-                  className="flex items-start justify-between bg-white rounded-lg px-4 py-3 border border-gray-100 shadow-sm gap-2"
+                  className="flex items-start justify-between bg-white rounded-xl px-4 py-3 gap-2"
+                  style={{ border: '1px solid #E5E7EB', boxShadow: 'var(--shadow-card)' }}
                 >
                   <div className="flex items-start gap-3 min-w-0 flex-1">
-                    <span className="text-lg flex-shrink-0 mt-0.5">
-                      {entry.file.name.endsWith('.pdf') ? '📄' : '📊'}
-                    </span>
+                    <div
+                      className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
+                      style={{ backgroundColor: '#F3F4F6' }}
+                    >
+                      {entry.file.name.endsWith('.pdf') ? (
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                          <path d="M3 2H10L13 5V14H3V2Z" stroke="#6B7280" strokeWidth="1.25" strokeLinejoin="round"/>
+                          <path d="M10 2V5H13" stroke="#6B7280" strokeWidth="1.25" strokeLinejoin="round"/>
+                        </svg>
+                      ) : (
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                          <rect x="1" y="1" width="14" height="14" rx="2" stroke="#6B7280" strokeWidth="1.25"/>
+                          <path d="M1 5H15M1 9H15M6 5V15" stroke="#6B7280" strokeWidth="1.25"/>
+                        </svg>
+                      )}
+                    </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-medium text-gray-700 truncate">
-                        {entry.file.name}
-                      </p>
-                      <p className="text-xs text-gray-400">{formatSize(entry.file.size)}</p>
+                      <p className="text-sm font-medium text-gray-800 truncate">{entry.file.name}</p>
+                      <p className="text-xs mt-0.5" style={{ color: '#9CA3AF' }}>{formatSize(entry.file.size)}</p>
 
-                      {/* Status badge — below filename on all screen sizes */}
                       {entry.status === 'parsing' && (
-                        <span className="inline-flex items-center gap-1.5 text-xs text-gray-400 mt-1.5">
+                        <span className="inline-flex items-center gap-1.5 text-xs mt-1.5" style={{ color: '#6B7280' }}>
                           <Spinner />
-                          Reading your transactions
+                          Reading your transactions…
                         </span>
                       )}
                       {entry.status === 'success' && (
-                        <span className="inline-flex items-center gap-1 text-xs font-medium text-green-700 bg-green-50 border border-green-200 px-2 py-0.5 rounded-full mt-1.5">
-                          ✓ {entry.txCount} transaction{entry.txCount !== 1 ? 's' : ''}
+                        <span
+                          className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-full mt-1.5"
+                          style={{ backgroundColor: '#DCFCE7', color: '#15803D' }}
+                        >
+                          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                            <path d="M2 5L4 7L8 3" stroke="#15803D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                          {entry.txCount} transaction{entry.txCount !== 1 ? 's' : ''}
                         </span>
                       )}
                       {entry.status === 'error' && (
                         <span
-                          className="inline-flex items-center gap-1 text-xs font-medium text-red-700 bg-red-50 border border-red-200 px-2 py-0.5 rounded-full mt-1.5 max-w-full truncate"
+                          className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-0.5 rounded-full mt-1.5 max-w-full"
+                          style={{ backgroundColor: '#FEE2E2', color: '#991B1B' }}
                           title={entry.error}
                         >
-                          ✕ {entry.error}
+                          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                            <path d="M3 3L7 7M7 3L3 7" stroke="#991B1B" strokeWidth="1.5" strokeLinecap="round"/>
+                          </svg>
+                          <span className="truncate">{entry.error}</span>
                         </span>
                       )}
                     </div>
@@ -300,25 +474,37 @@ export default function Upload() {
 
                   <button
                     onClick={() => removeEntry(entry.id)}
-                    className="p-2 -mr-2 -mt-1 text-gray-300 hover:text-red-400 transition-colors text-xl leading-none flex-shrink-0 min-h-[44px] min-w-[44px] flex items-center justify-center"
+                    className="flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-lg transition-colors hover:bg-red-50 -mr-1 mt-0.5"
                     aria-label="Remove file"
+                    style={{ color: '#9CA3AF' }}
                   >
-                    ×
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                      <path d="M2.5 2.5L11.5 11.5M11.5 2.5L2.5 11.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                    </svg>
                   </button>
                 </li>
               ))}
             </ul>
           )}
 
-          {/* Analyse button */}
+          {/* ── Analyse button ─────────────────────────────────────────────── */}
           <button
             disabled={!hasSuccess || anyParsing}
             onClick={handleAnalyse}
-            className="mt-6 w-full py-3 rounded-xl text-white font-semibold text-base transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
-            style={{ backgroundColor: '#1F4E79' }}
+            className="mt-6 w-full py-3.5 rounded-xl text-white font-semibold text-base transition-all"
+            style={
+              hasSuccess && !anyParsing
+                ? { backgroundColor: '#1F4E79' }
+                : { backgroundColor: '#D1D5DB', cursor: 'not-allowed', color: '#9CA3AF' }
+            }
           >
-            {anyParsing ? 'Reading your transactions…' : 'Analyse My Spending'}
+            {anyParsing
+              ? 'Reading your transactions…'
+              : hasSuccess
+              ? 'Analyse My Spending →'
+              : 'Upload a file to get started'}
           </button>
+
         </div>
       </main>
       <Footer />
@@ -331,24 +517,14 @@ export default function Upload() {
 function Spinner() {
   return (
     <svg
-      className="animate-spin h-3.5 w-3.5 text-gray-400"
+      className="animate-spin h-3.5 w-3.5"
+      style={{ color: '#6B7280' }}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
     >
-      <circle
-        className="opacity-25"
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        strokeWidth="4"
-      />
-      <path
-        className="opacity-75"
-        fill="currentColor"
-        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-      />
+      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
     </svg>
   )
 }

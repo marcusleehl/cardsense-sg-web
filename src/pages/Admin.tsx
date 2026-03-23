@@ -53,6 +53,18 @@ interface FoundPromotion extends PromotionRecord {
   added: boolean
 }
 
+interface PerspectiveCritique {
+  strengths: string[]
+  criticalIssues: string[]
+  recommendedActions: string[]
+}
+
+interface ExecCritique {
+  ceo: PerspectiveCritique
+  cto: PerspectiveCritique
+  coo: PerspectiveCritique
+}
+
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
 function todayISO(): string {
@@ -166,6 +178,11 @@ export default function Admin() {
 
   const [scanning, setScanning]         = useState(false)
   const [foundPromos, setFoundPromos]   = useState<FoundPromotion[]>([])
+
+  const [critiquing, setCritiquing]         = useState(false)
+  const [critiqueData, setCritiqueData]     = useState<ExecCritique | null>(null)
+  const [critiqueError, setCritiqueError]   = useState<string | null>(null)
+  const [critiqueOpen, setCritiqueOpen]     = useState<Record<string, boolean>>({ ceo: true, cto: false, coo: false })
 
   const cancelRef = useRef(false)
   const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY as string | undefined
@@ -303,6 +320,86 @@ export default function Admin() {
     setScanning(false)
   }
 
+  // ── Product Critique ──────────────────────────────────────────────────────────
+
+  async function runCritique() {
+    if (!apiKey) { alert('VITE_ANTHROPIC_API_KEY is not set in .env.local'); return }
+    const client = makeClient()
+    setCritiquing(true)
+    setCritiqueData(null)
+    setCritiqueError(null)
+
+    const prompt = `You are a panel of three senior executives reviewing CardSense SG — a Singapore credit card recommender web app. The app allows users to upload their spending data (Money Manager Excel exports or PDF bank statements), automatically categorises transactions into 11 HeyMax-aligned categories, collects user preferences (reward priority, existing cards, lifestyle perks, income, min spend), runs a gap analysis against their existing card portfolio, and recommends the top 5 Singapore credit cards ranked by projected annual value.
+
+The app has 50 cards in its database across 11 banks. It shows a spending analysis dashboard with donut chart and category breakdown, a preferences page, a recommendations page with miles per year or monthly cashback, a card detail page with projected value breakdown, a side-by-side comparison page, and a promotions system with multi-source support and AI advisor.
+
+Current known issues:
+- Card database accuracy not fully verified
+- Promotions data needs updating
+- UI feels AI-generated and generic
+- Some users unfamiliar with Money Manager format
+- Privacy concerns about financial data handling
+- Missing cards: Trust Bank, Maribank, GXS, Chocolate, UOB KrisFlyer
+
+Please provide structured critique from three perspectives:
+
+CEO: Focus on business model, market positioning, revenue potential, competitive differentiation, and what would make this a viable business vs a side project.
+
+CTO: Focus on technical architecture, data accuracy challenges, scalability, security, what needs to be rebuilt vs refined, and technical debt.
+
+COO: Focus on operations, data maintenance workflow, user trust, compliance risks (PDPA, MAS), and what processes need to exist before public launch.
+
+For each perspective provide:
+1. Top 3 strengths
+2. Top 3 critical issues
+3. Top 3 recommended actions in priority order
+
+Be direct, specific to Singapore fintech context, and assume the founder is a solo non-technical founder building this as a potential business.
+
+Respond ONLY with valid JSON in exactly this format, no other text:
+{
+  "ceo": {
+    "strengths": ["...", "...", "..."],
+    "criticalIssues": ["...", "...", "..."],
+    "recommendedActions": ["...", "...", "..."]
+  },
+  "cto": {
+    "strengths": ["...", "...", "..."],
+    "criticalIssues": ["...", "...", "..."],
+    "recommendedActions": ["...", "...", "..."]
+  },
+  "coo": {
+    "strengths": ["...", "...", "..."],
+    "criticalIssues": ["...", "...", "..."],
+    "recommendedActions": ["...", "...", "..."]
+  }
+}`
+
+    try {
+      const response = await client.messages.create({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 4096,
+        messages: [{ role: 'user', content: prompt }],
+      })
+
+      const text = response.content.find((b) => b.type === 'text')
+      const raw  = text?.type === 'text' ? text.text : '{}'
+
+      let parsed: ExecCritique
+      try {
+        parsed = parseJsonFromText(raw) as ExecCritique
+      } catch {
+        throw new Error('Could not parse critique response. Raw output: ' + raw.slice(0, 200))
+      }
+
+      setCritiqueData(parsed)
+    } catch (err) {
+      setCritiqueError(err instanceof Error ? err.message : String(err))
+    }
+
+    setCritiquing(false)
+  }
+
   function addPromotion(promo: FoundPromotion) {
     setPromoState((prev) => [...prev, { cardId: promo.cardId, badge: promo.badge, description: promo.description }])
     setFoundPromos((prev) => prev.map((p) =>
@@ -418,6 +515,77 @@ export default function Admin() {
               </p>
             )}
           </>
+        )}
+      </section>
+
+      <hr style={{ borderColor: '#E2E8F0', marginBottom: 40 }} />
+
+      {/* ── Product Critique ──────────────────────────────────────────────── */}
+      <section style={{ marginBottom: 48 }}>
+        <h2 style={{ fontSize: 16, borderBottom: '2px solid #CBD5E1', paddingBottom: 6, marginBottom: 10 }}>
+          Product Critique
+        </h2>
+        <p style={{ fontSize: 13, color: '#64748B', marginTop: 0, marginBottom: 16 }}>
+          Simulates a CEO, CTO, and COO review of CardSense SG. Provides strengths, critical issues, and recommended actions from each perspective.
+        </p>
+
+        <div style={{ marginBottom: 20 }}>
+          <Btn onClick={runCritique} disabled={critiquing || !apiKey} color="#7C3AED">
+            {critiquing ? 'Consulting the executive team…' : 'Run CEO / CTO / COO Critique'}
+          </Btn>
+        </div>
+
+        {critiquing && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 13, color: '#7C3AED', marginBottom: 16 }}>
+            <Spinner />
+            Consulting the executive team...
+          </div>
+        )}
+
+        {critiqueError && (
+          <div style={{ background: '#FEE2E2', border: '1px solid #FECACA', padding: '10px 14px', borderRadius: 6, fontSize: 13, color: '#991B1B', marginBottom: 16 }}>
+            <strong>Error:</strong> {critiqueError}
+          </div>
+        )}
+
+        {critiqueData && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {(['ceo', 'cto', 'coo'] as const).map((role) => {
+              const labels: Record<string, { title: string; bg: string; border: string; head: string; headText: string }> = {
+                ceo: { title: 'CEO — Business & Market', bg: '#F0F9FF', border: '#BAE6FD', head: '#0369A1', headText: '#FFFFFF' },
+                cto: { title: 'CTO — Technical Architecture', bg: '#F5F3FF', border: '#C4B5FD', head: '#6D28D9', headText: '#FFFFFF' },
+                coo: { title: 'COO — Operations & Compliance', bg: '#F0FDF4', border: '#86EFAC', head: '#15803D', headText: '#FFFFFF' },
+              }
+              const { title, bg, border, head, headText } = labels[role]
+              const data = critiqueData[role]
+              const isOpen = critiqueOpen[role]
+
+              return (
+                <div key={role} style={{ border: `1px solid ${border}`, borderRadius: 6, overflow: 'hidden' }}>
+                  <button
+                    onClick={() => setCritiqueOpen((prev) => ({ ...prev, [role]: !prev[role] }))}
+                    style={{
+                      width: '100%', textAlign: 'left', background: head, color: headText,
+                      border: 'none', padding: '10px 16px', fontSize: 14, fontWeight: 700,
+                      fontFamily: 'monospace', cursor: 'pointer', display: 'flex',
+                      justifyContent: 'space-between', alignItems: 'center',
+                    }}
+                  >
+                    {title}
+                    <span style={{ fontSize: 12, fontWeight: 400 }}>{isOpen ? '▲ collapse' : '▼ expand'}</span>
+                  </button>
+
+                  {isOpen && (
+                    <div style={{ background: bg, padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: 16 }}>
+                      <CritiqueGroup label="Strengths" items={data.strengths} color="#15803D" bullet="✓" />
+                      <CritiqueGroup label="Critical Issues" items={data.criticalIssues} color="#B91C1C" bullet="✗" />
+                      <CritiqueGroup label="Recommended Actions" items={data.recommendedActions} color="#1D4ED8" bullet="→" numbered />
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
         )}
       </section>
 
@@ -680,6 +848,46 @@ function ManualCheckRow({
         <ExternalLink href={`https://www.moneysmart.sg/search?q=${q}`}>MoneySmart →</ExternalLink>
         <ExternalLink href={`https://www.singsaver.com.sg/credit-cards?q=${q}`}>SingSaver →</ExternalLink>
       </div>
+    </div>
+  )
+}
+
+function Spinner() {
+  return (
+    <span style={{
+      display: 'inline-block', width: 16, height: 16, border: '2px solid #C4B5FD',
+      borderTopColor: '#7C3AED', borderRadius: '50%', animation: 'spin 0.8s linear infinite',
+      flexShrink: 0,
+    }}>
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+    </span>
+  )
+}
+
+function CritiqueGroup({
+  label, items, color, bullet, numbered = false,
+}: {
+  label: string
+  items: string[]
+  color: string
+  bullet: string
+  numbered?: boolean
+}) {
+  return (
+    <div>
+      <div style={{ fontSize: 12, fontWeight: 700, color, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 6 }}>
+        {label}
+      </div>
+      <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 5 }}>
+        {items.map((item, i) => (
+          <li key={i} style={{ fontSize: 13, color: '#1E293B', display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+            <span style={{ color, fontWeight: 700, flexShrink: 0, minWidth: 18 }}>
+              {numbered ? `${i + 1}.` : bullet}
+            </span>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }

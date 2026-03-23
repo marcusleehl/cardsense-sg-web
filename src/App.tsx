@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import Navbar from './components/Navbar'
 import Upload from './pages/Upload'
 import Analysis from './pages/Analysis'
 import Preferences from './pages/Preferences'
@@ -10,6 +11,7 @@ import Admin from './pages/Admin'
 export default function App() {
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Upload />} />
         <Route path="/analysis" element={<Analysis />} />
