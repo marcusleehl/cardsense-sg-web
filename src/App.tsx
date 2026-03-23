@@ -7,6 +7,7 @@ import Recommendations from './pages/Recommendations'
 import CardDetail from './pages/CardDetail'
 import Compare from './pages/Compare'
 import Admin from './pages/Admin'
+import Privacy from './pages/Privacy'
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/card/:id" element={<CardDetail />} />
         <Route path="/compare" element={<Compare />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/privacy" element={<Privacy />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
